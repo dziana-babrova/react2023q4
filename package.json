@@ -10,7 +10,8 @@
     "lint:fix": "eslint . --fix",
     "format:fix": "prettier --loglevel warn --write \"src/**/*.{tsx,ts}\"",
     "preview": "vite preview",
-    "precommit": "npm run lint && npm test"
+    "precommit": "npm run lint && npm test",
+    "prepare": "husky install"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -23,21 +24,16 @@
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
     "eslint": "^8.45.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.3",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react": "^7.29.4",
-    "husky": "^7.0.4",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "husky": "^8.0.0",
     "lint-staged": "^12.4.1",
-    "prettier": "^2.6.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run precommit"
-    }
+    "prettier": "^2.6.2",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
   }
 }

@@ -1,0 +1,33 @@
+.app-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-element {
+  border-color: rgb(246, 203, 124);
+  background-color: wheat;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-position: center;
+  background-size: cover;
+}
+
+.github {
+  background-image: url('./../../assets/github.svg');
+}
+
+.logo {
+  background-image: url('./../../assets/logo.svg');
+  background-position: 95% 25%;
+}
+
+.year {
+  font-size: larger;
+  font-weight: 600;
+}

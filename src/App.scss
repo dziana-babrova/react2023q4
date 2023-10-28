@@ -6,4 +6,18 @@
   background-image: url('./assets/background.jpg');
   background-position: center;
   background-size: cover;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-wrapper {
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.app-content {
+  flex-grow: 1;
+  width: 100%;
+  box-sizing: border-box;
 }

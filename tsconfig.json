@@ -16,7 +16,14 @@
     "noImplicitAny": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "baseUrl": ".",
+    "paths": {
+      "components/*": ["src/components/*"],
+      "assets/*": ["src/assets/*"],
+      "pages/*": ["src/pages/*"],
+      "consts/*": ["src/consts/*"]
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

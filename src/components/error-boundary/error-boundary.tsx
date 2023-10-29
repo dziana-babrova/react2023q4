@@ -17,6 +17,10 @@ class ErrorBoundary extends Component<PropsWithChildren, ErrorBoundaryState> {
     console.log(error, errorInfo);
   }
 
+  public getStateChanged = () => {
+    return;
+  };
+
   public render() {
     if (this.state.hasError) {
       return <h1>Sorry.. there was an error. Reload the page</h1>;

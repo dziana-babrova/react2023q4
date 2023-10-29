@@ -4,6 +4,7 @@ import { AllCharactersResponse } from 'src/types/api-types';
 import { CardsList } from 'components/cards/cards-list';
 import { SEARCH_TERM } from 'consts/consts';
 import { getAllCharacters } from 'services/api-service';
+import { ErrorButton } from 'components/error-button/error-button';
 
 type MainPageState = {
   data: AllCharactersResponse | null;
@@ -26,9 +27,11 @@ export class MainPage extends Component {
   };
 
   fetchCharacters = (searchValue: string) => {
-    getAllCharacters(searchValue).then((data) => {
-      this.setState({ data });
-    });
+    getAllCharacters(searchValue)
+      .then((data) => {
+        this.setState({ data });
+      })
+      .catch((e) => console.log(e));
   };
 
   render(): ReactNode {
@@ -40,6 +43,7 @@ export class MainPage extends Component {
             searchValue={this.state.searchValue}
             handleSearchOnClick={this.handleSearch}
           ></SearchBar>
+          <ErrorButton data={this.state.data}></ErrorButton>
         </div>
         <CardsList response={this.state.data}></CardsList>
       </>

@@ -1,22 +1,23 @@
-import React, { Component, FormEvent, PropsWithRef, ReactNode } from 'react';
+import React, { Component, FormEvent, ReactNode } from 'react';
 import { SEARCH_TERM } from 'consts/consts';
 import './search.scss';
 
-export class SearchBar extends Component {
-  private myRef = React.createRef<HTMLInputElement>();
-  constructor(props: PropsWithRef<HTMLInputElement>) {
-    super(props);
-  }
+type SearchBarProps = {
+  searchValue: string;
+};
 
-  componentDidMount(): void {
-    if (this.myRef.current) {
-      this.myRef.current.value = window.localStorage.getItem(SEARCH_TERM) || '';
-    }
+export class SearchBar extends Component<SearchBarProps> {
+  private searchRef = React.createRef<HTMLInputElement>();
+  constructor(props: SearchBarProps) {
+    super(props);
   }
 
   handleSearchOnClick(e: FormEvent) {
     e.preventDefault();
-    window.localStorage.setItem(SEARCH_TERM, this.myRef.current?.value || '');
+    window.localStorage.setItem(
+      SEARCH_TERM,
+      this.searchRef.current?.value || ''
+    );
   }
 
   render(): ReactNode {
@@ -29,8 +30,9 @@ export class SearchBar extends Component {
         <input
           className="search-field"
           type="search"
-          ref={this.myRef}
+          ref={this.searchRef}
           placeholder="SEARCH"
+          defaultValue={this.props.searchValue}
         />
         <span
           className="search-submit"

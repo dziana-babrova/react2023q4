@@ -23,16 +23,22 @@
   display: flex;
   position: relative;
   flex-direction: column;
-}
-
-.card-info {
-  padding: 10px;
+  height: 100%;
 }
 
 .card-image {
   width: 100%;
   height: auto;
   border-radius: 10px;
+}
+
+.card-info {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+  height: auto;
 }
 
 .card-name {
@@ -45,4 +51,8 @@
   text-align: center;
   text-overflow: ellipsis;
   font-family: $font-primary;
+}
+
+.card-species {
+  margin: 0;
 }

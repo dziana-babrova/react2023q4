@@ -3,6 +3,7 @@ import { SearchBar } from 'components/search/search';
 import { AllCharactersResponse } from 'src/types/api-types';
 import { CardsList } from 'components/cards/cards-list';
 import { SEARCH_TERM } from 'consts/consts';
+import { getAllCharacters } from 'services/api-service';
 
 type MainPageState = {
   data: AllCharactersResponse | null;
@@ -15,22 +16,30 @@ export class MainPage extends Component {
   };
 
   componentDidMount(): void {
-    fetch(
-      `https://rickandmortyapi.com/api/character/?name=${this.state.searchValue}`
-    )
-      .then((response) => response.json())
-      .then((data) => this.setState({ data: data }))
-      .catch((e) => {
-        console.log(e);
-      });
+    this.fetchCharacters(this.state.searchValue);
   }
+
+  handleSearch = (value: string) => {
+    this.setState({ data: null, searchValue: value });
+    window.localStorage.setItem(SEARCH_TERM, value);
+    this.fetchCharacters(value);
+  };
+
+  fetchCharacters = (searchValue: string) => {
+    getAllCharacters(searchValue).then((data) => {
+      this.setState({ data });
+    });
+  };
 
   render(): ReactNode {
     return (
       <>
         <div className="page-header">
           <h2 className="page-title">Characters</h2>
-          <SearchBar searchValue={this.state.searchValue}></SearchBar>
+          <SearchBar
+            searchValue={this.state.searchValue}
+            handleSearchOnClick={this.handleSearch}
+          ></SearchBar>
         </div>
         <CardsList response={this.state.data}></CardsList>
       </>

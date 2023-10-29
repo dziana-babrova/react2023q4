@@ -1,7 +1,10 @@
-export async function getAllCharacters(pageNumber: number) {
-  const response = await fetch(
-    `https://rickandmortyapi.com/api/character/?page=${pageNumber}`
-  );
-  const data = await response.json();
-  return data;
+import { AllCharactersResponse } from 'src/types/api-types';
+
+export function getAllCharacters(searchValue: string) {
+  return fetch(`https://rickandmortyapi.com/api/character/?name=${searchValue}`)
+    .then((response: Response) => response.json())
+    .then((data: AllCharactersResponse) => data)
+    .catch((e) => {
+      console.log(e);
+    });
 }

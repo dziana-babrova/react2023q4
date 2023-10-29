@@ -1,9 +1,9 @@
 import React, { Component, FormEvent, ReactNode } from 'react';
-import { SEARCH_TERM } from 'consts/consts';
 import './search.scss';
 
 type SearchBarProps = {
   searchValue: string;
+  handleSearchOnClick: (value: string) => void;
 };
 
 export class SearchBar extends Component<SearchBarProps> {
@@ -12,13 +12,10 @@ export class SearchBar extends Component<SearchBarProps> {
     super(props);
   }
 
-  handleSearchOnClick(e: FormEvent) {
+  handleSearchOnClick = (e: FormEvent) => {
     e.preventDefault();
-    window.localStorage.setItem(
-      SEARCH_TERM,
-      this.searchRef.current?.value || ''
-    );
-  }
+    this.props.handleSearchOnClick(this.searchRef.current?.value || '');
+  };
 
   render(): ReactNode {
     return (

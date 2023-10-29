@@ -14,14 +14,18 @@ export class CardsList extends Component<CardsListProps> {
   }
 
   render(): ReactNode {
-    return this.props.response ? (
-      <ul className="cards">
-        {this.props.response?.results.map((card) => {
-          return <Card key={card.id} props={card}></Card>;
-        })}
-      </ul>
-    ) : (
+    return !this.props.response ? (
       <Loader></Loader>
+    ) : (
+      <ul className="cards">
+        {this.props.response.results ? (
+          this.props.response?.results.map((card) => {
+            return <Card key={card.id} props={card}></Card>;
+          })
+        ) : (
+          <div>No results found. Remove the search term or try later</div>
+        )}
+      </ul>
     );
   }
 }

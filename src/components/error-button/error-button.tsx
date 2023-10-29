@@ -1,8 +1,8 @@
 import { Component, ReactNode } from 'react';
 
 export class ErrorButton extends Component {
-  throwError = () => {
-    throw new Error('An error thrown');
+  throwError = async () => {
+    fetch('fwfwfw').then((data) => data.json());
   };
 
   render(): ReactNode {

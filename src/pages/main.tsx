@@ -1,6 +1,7 @@
 import { Component, ReactNode } from 'react';
 import { SearchBar } from 'components/search/search';
 import { AllCharactersResponse } from 'src/types/api-types';
+import { CardsList } from 'components/cards/cards-list';
 
 type MainPageState = {
   data: AllCharactersResponse | null;
@@ -18,7 +19,11 @@ export class MainPage extends Component {
   render(): ReactNode {
     return (
       <>
-        <SearchBar></SearchBar>
+        <div className="page-header">
+          <h2 className="page-title">Characters</h2>
+          <SearchBar></SearchBar>
+        </div>
+        <CardsList props={this.state.data}></CardsList>
       </>
     );
   }

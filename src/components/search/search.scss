@@ -24,26 +24,13 @@
 }
 
 .search-submit {
+  @include button;
   position: relative;
   width: $size-search-button-width;
   height: $size-search-button-height;
   border-radius: 5px;
-  font-size: medium;
-  background-color: $color-button;
-  border: none;
   background-image: url('./../../assets/search.svg');
   box-sizing: border-box;
-  cursor: pointer;
-}
-
-.search-submit {
-  background-image: url('./../../assets/search.svg');
   background-position: center;
   background-size: contain;
-  width: $size-search-button-width;
-  height: $size-search-button-height;
-}
-
-.search-submit:active {
-  box-shadow: $color-button-focus 0px 2px 4px 0px inset;
 }

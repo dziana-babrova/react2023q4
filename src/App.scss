@@ -29,11 +29,5 @@
 
   .page-title {
     margin: 10px 0;
-
-    button {
-      @include button;
-      height: 35px;
-      margin: 20px;
-    }
   }
 }

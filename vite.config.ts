@@ -12,6 +12,7 @@ export default defineConfig({
       pages: path.resolve(__dirname, './src/pages'),
       consts: path.resolve(__dirname, './src/consts'),
       services: path.resolve(__dirname, './src/services'),
+      hooks: path.resolve(__dirname, './src/hooks'),
     },
   },
   css: {

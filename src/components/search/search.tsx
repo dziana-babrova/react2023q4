@@ -1,41 +1,29 @@
-import React, { Component, FormEvent, ReactNode } from 'react';
+import { FormEvent, useRef } from 'react';
 import './search.scss';
 
 type SearchBarProps = {
   searchValue: string;
-  handleSearchOnClick: (value: string) => void;
+  setSearchValue: (value: string) => void;
 };
 
-export class SearchBar extends Component<SearchBarProps> {
-  private searchRef = React.createRef<HTMLInputElement>();
-  constructor(props: SearchBarProps) {
-    super(props);
-  }
+export const SearchBar = ({ searchValue, setSearchValue }: SearchBarProps) => {
+  const searchRef = useRef<HTMLInputElement>(null);
 
-  handleSearchOnClick = (e: FormEvent) => {
+  const onClick = (e: FormEvent) => {
     e.preventDefault();
-    this.props.handleSearchOnClick(this.searchRef.current?.value || '');
+    setSearchValue(searchRef.current?.value || '');
   };
 
-  render(): ReactNode {
-    return (
-      <form
-        className="search-form"
-        onSubmit={this.handleSearchOnClick.bind(this)}
-        action=""
-      >
-        <input
-          className="search-field"
-          type="search"
-          ref={this.searchRef}
-          placeholder="SEARCH"
-          defaultValue={this.props.searchValue}
-        />
-        <span
-          className="search-submit"
-          onClick={this.handleSearchOnClick.bind(this)}
-        />
-      </form>
-    );
-  }
-}
+  return (
+    <form className="search-form" onSubmit={onClick} action="">
+      <input
+        className="search-field"
+        type="search"
+        ref={searchRef}
+        placeholder="SEARCH"
+        defaultValue={searchValue}
+      />
+      <span className="search-submit" onClick={onClick} />
+    </form>
+  );
+};

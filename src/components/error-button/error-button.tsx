@@ -1,40 +1,12 @@
-import { Component, PropsWithChildren, ReactNode } from 'react';
-import { getAllCharacters } from 'services/api-service';
-import { AllCharactersResponse } from 'src/types/api-types';
+import { useState } from 'react';
 
-type ErrorButtonState = {
-  data: AllCharactersResponse | null;
-  clicked: boolean;
+export const ErrorButton = () => {
+  const [hasError, setHasError] = useState<boolean>(false);
+
+  const generateError = () => {
+    setHasError(true);
+  };
+
+  if (hasError) throw new Error('Error thrown');
+  return <button onClick={generateError}>Throw error</button>;
 };
-
-export class ErrorButton extends Component<
-  PropsWithChildren,
-  ErrorButtonState
-> {
-  state: ErrorButtonState = {
-    clicked: false,
-    data: null,
-  };
-
-  generateError = () => {
-    getAllCharacters('korewd').then((response) => {
-      this.setState({ data: response, clicked: true });
-    });
-  };
-
-  render(): ReactNode {
-    return this.state.data ? (
-      this.state.data?.results.map((el) => {
-        return <div key={el.id}></div>;
-      })
-    ) : (
-      <button
-        onClick={() => {
-          this.generateError();
-        }}
-      >
-        Throw error
-      </button>
-    );
-  }
-}

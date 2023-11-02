@@ -1,23 +1,16 @@
-import { AllCharactersResponse } from 'src/types/api-types';
+import { AllCharactersResponse, Character } from 'src/types/api-types';
 import { Card } from './card';
 import './cards-list.scss';
-import { Loader } from 'components/loader/loader';
 
-type CardsListProps = {
-  response: AllCharactersResponse | null;
-};
+type CardsListProps = Pick<AllCharactersResponse, 'results'>;
 
-export const CardsList = ({ response }: CardsListProps) => {
-  return !response ? (
-    <Loader></Loader>
-  ) : (
+export const CardsList = ({ results }: CardsListProps) => {
+  return (
     <ul className="cards">
-      {response.results ? (
-        response?.results.map((card) => {
-          return <Card key={card.id} props={card}></Card>;
-        })
-      ) : (
-        <div>No results found. Remove the search term or try later</div>
+      {results.map(
+        (card: Pick<Character, 'image' | 'name' | 'species' | 'id'>) => {
+          return <Card key={card.id} {...card}></Card>;
+        }
       )}
     </ul>
   );

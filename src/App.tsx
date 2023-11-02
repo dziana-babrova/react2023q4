@@ -1,17 +1,19 @@
 import './App.scss';
-import { Header } from 'components/header/header';
-import { Footer } from 'components/footer/footer';
 import { MainPage } from 'pages/main';
 import ErrorBoundary from 'components/error-boundary/error-boundary';
+import { Routes, Route } from 'react-router-dom';
+import { NotFoundPage } from 'pages/not-found';
+import { Layout } from 'components/layout/layout';
 
 function App() {
   return (
     <ErrorBoundary>
-      <Header></Header>
-      <main className="app-content app-wrapper">
-        <MainPage></MainPage>
-      </main>
-      <Footer></Footer>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<MainPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
     </ErrorBoundary>
   );
 }

@@ -3,14 +3,13 @@
   min-height: 100vh;
   margin: 0 auto;
   text-align: center;
-  background-image: url('./assets/background.jpg');
   background-position: top;
   display: flex;
   flex-direction: column;
 }
 
 .app-wrapper {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 30px;
 }
@@ -23,7 +22,7 @@
 
 .page-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin: 0 20px;
   font-size: larger;
 

@@ -4,15 +4,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
   cursor: pointer;
   font-size: medium;
-  color: $color-text-primary;
+  color: white;
+  border-radius: 0;
 
   &:hover {
     outline: none;
-    border: none;
-    background-color: $color-grey;
   }
 
   &:active {

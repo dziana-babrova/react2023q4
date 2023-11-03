@@ -17,7 +17,6 @@ export const MainPage = () => {
   return (
     <>
       <div className="page-header">
-        <h2 className="page-title">Characters</h2>
         <SearchBar
           searchValue={valueFromLS}
           setSearchValue={handleSearch}
@@ -27,10 +26,10 @@ export const MainPage = () => {
       {hasError && (
         <ErrorMessage text="Oops... An error occurred. Please try again later"></ErrorMessage>
       )}
-      {!isLoading && data?.results && (
-        <CardsList results={data.results}></CardsList>
+      {!isLoading && data?.products && (
+        <CardsList products={data.products}></CardsList>
       )}
-      {!isLoading && !hasError && !data?.results && (
+      {!isLoading && !hasError && !data?.products && (
         <ErrorMessage text="No results found. Remove the search term and try again"></ErrorMessage>
       )}
     </>

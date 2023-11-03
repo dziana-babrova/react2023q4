@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { getAllCharacters } from 'services/api-service';
-import { AllCharactersResponse } from 'src/types/api-types';
+import { ApiResponse } from 'src/types/api-types';
 
 export const useFetch = (
   value: string
-): [AllCharactersResponse | null, boolean, boolean] => {
-  const [state, setState] = useState<AllCharactersResponse | null>(null);
+): [ApiResponse | null, boolean, boolean] => {
+  const [state, setState] = useState<ApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
 

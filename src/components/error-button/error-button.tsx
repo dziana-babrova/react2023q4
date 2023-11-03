@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './error-button.scss';
 
 export const ErrorButton = () => {
   const [hasError, setHasError] = useState<boolean>(false);
@@ -8,5 +9,9 @@ export const ErrorButton = () => {
   };
 
   if (hasError) throw new Error('Error thrown');
-  return <button onClick={generateError}>Throw error</button>;
+  return (
+    <button className="error-button" onClick={generateError}>
+      Throw error
+    </button>
+  );
 };

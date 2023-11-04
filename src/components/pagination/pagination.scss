@@ -1,0 +1,17 @@
+.pagination {
+  flex-grow: 1;
+  justify-self: flex-end;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+
+  &-select {
+    background-color: $color-secondary;
+    width: $size-select-width;
+    height: $size-select-height;
+    color: $color-white;
+    padding: 5px;
+    font-size: large;
+    font-family: $font-primary;
+  }
+}

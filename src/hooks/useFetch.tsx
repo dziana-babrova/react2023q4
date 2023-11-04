@@ -3,7 +3,8 @@ import { getAllCharacters } from 'services/api-service';
 import { ApiResponse } from 'src/types/api-types';
 
 export const useFetch = (
-  value: string
+  value: string,
+  limit: string
 ): [ApiResponse | null, boolean, boolean] => {
   const [state, setState] = useState<ApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -14,7 +15,7 @@ export const useFetch = (
       try {
         setIsLoading(true);
         setState(null);
-        const data = await getAllCharacters(value);
+        const data = await getAllCharacters(value, limit);
         setState(data);
       } catch {
         setHasError(true);
@@ -24,7 +25,7 @@ export const useFetch = (
     }
 
     fetchData();
-  }, [value]);
+  }, [value, limit]);
 
   return [state, isLoading, hasError];
 };

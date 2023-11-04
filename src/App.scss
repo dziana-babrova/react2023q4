@@ -18,6 +18,13 @@
   flex-grow: 1;
   width: 100%;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+  align-content: stretch;
+  justify-items: stretch;
+  flex-wrap: wrap;
 }
 
 .page-header {
@@ -25,6 +32,7 @@
   justify-content: center;
   margin: 0 20px;
   font-size: larger;
+  width: 100%;
 
   .page-title {
     margin: 10px 0;

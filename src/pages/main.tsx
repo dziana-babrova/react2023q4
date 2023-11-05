@@ -70,7 +70,7 @@ export const MainPage = () => {
           </div>
         )}
       </div>
-      <Outlet></Outlet>
+      <Outlet context={{ limit, searchQuery }}></Outlet>
     </>
   );
 };

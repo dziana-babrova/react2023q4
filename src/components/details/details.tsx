@@ -2,10 +2,19 @@ import { useDetailedInfo } from 'hooks/useDetailedInfo';
 import './details.scss';
 import { Loader } from 'components/loader/loader';
 import { ErrorMessage } from 'components/error-message/error-message';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
+
+export type OutletContext = {
+  limit: string;
+  searchQuery: string;
+};
 
 export const Details = () => {
-  const [data, isLoading, hasError] = useDetailedInfo();
+  const context = useOutletContext<OutletContext>();
+  const [data, isLoading, hasError] = useDetailedInfo(
+    context.limit,
+    context.searchQuery
+  );
 
   return (
     <div className="details">

@@ -92,12 +92,12 @@ export const usePagination: usePaginationType = (value, limit) => {
     } catch {}
   }, [limit, page, totalPages, value]);
 
-  // useEffect(() => {
-  //   if (!searchParams.get(URL_SEARCH_PARAMS.page.name)) {
-  //     searchParams.delete(URL_SEARCH_PARAMS.page.name);
-  //     setSearchParams(searchParams);
-  //   }
-  // }, [searchParams, setSearchParams]);
+  useEffect(() => {
+    if (!searchParams.get(URL_SEARCH_PARAMS.page.name)) {
+      searchParams.delete(URL_SEARCH_PARAMS.page.name);
+      setSearchParams(searchParams);
+    }
+  }, [searchParams, setSearchParams]);
 
   useEffect(() => {
     searchParams.set(URL_SEARCH_PARAMS.page.name, page);

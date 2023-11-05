@@ -2,20 +2,14 @@ import { useDetailedInfo } from 'hooks/useDetailedInfo';
 import './details.scss';
 import { Loader } from 'components/loader/loader';
 import { ErrorMessage } from 'components/error-message/error-message';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const Details = () => {
   const [data, isLoading, hasError] = useDetailedInfo();
-  const navigate = useNavigate();
-
-  const closeDetails = () => {
-    console.log('close');
-    navigate(-1);
-  };
 
   return (
     <div className="details">
-      <div className="overlay" onClick={closeDetails}></div>
+      <Link to="/" className="overlay"></Link>
       <div className="details-content">
         {isLoading && <Loader></Loader>}
         {hasError && (
@@ -48,6 +42,7 @@ export const Details = () => {
                 <p className="details-info-content">{data.result.imdbRating}</p>
               </div>
             </div>
+            <Link className="close-button" to="/"></Link>
           </>
         )}
       </div>

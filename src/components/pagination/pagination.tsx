@@ -12,8 +12,23 @@ export const Pagination = ({ limit, setLimitPerPage }: PaginationType) => {
     setLimitPerPage(e.target.value);
   };
 
+  const changePage = () => {};
+
   return (
     <div className="pagination">
+      <div className="pagination-button" onClick={changePage}>
+        {'<'}
+      </div>
+      <div className="pagination-button" onClick={changePage}>
+        {'<<'}
+      </div>
+      <div className="pagination-counter">{'0 of 10'}</div>
+      <div className="pagination-button" onClick={changePage}>
+        {'>'}
+      </div>
+      <div className="pagination-button" onClick={changePage}>
+        {'>>'}
+      </div>
       <select
         className="pagination-select"
         name="items"

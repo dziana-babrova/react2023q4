@@ -6,6 +6,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  gap: 5px;
 
   &-select {
     background-color: $color-secondary;
@@ -15,5 +16,24 @@
     padding: 5px;
     font-size: large;
     font-family: $font-primary;
+  }
+
+  &-button {
+    box-sizing: border-box;
+    border: 1px solid $color-secondary;
+    width: $size-page-button-width;
+    height: $size-page-button-height;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    font-weight: 500;
+  }
+
+  &-counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $size-page-button-height;
   }
 }

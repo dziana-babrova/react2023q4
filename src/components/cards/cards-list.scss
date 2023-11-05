@@ -3,7 +3,11 @@
 }
 
 .content-list:has(+ .details) {
+  flex: 0 0 50%;
+
   .cards {
+    max-height: 80vh;
+    overflow: scroll;
     .cards-item {
       flex: 0 0 45%;
     }
@@ -69,6 +73,7 @@
   text-align: center;
   text-overflow: ellipsis;
   font-family: $font-primary;
+  color: $color-text-primary;
 }
 
 .card-species {

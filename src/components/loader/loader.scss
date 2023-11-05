@@ -7,9 +7,8 @@
   border-radius: 22px;
   animation: rotate 1s infinite linear;
   -webkit-animation: rotate 1s infinite linear;
-  position: absolute;
-  left: 50%;
-  top: 30%;
+  position: relative;
+  top: 100px;
 }
 
 @keyframes rotate {

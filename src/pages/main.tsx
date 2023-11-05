@@ -6,14 +6,26 @@ import { ErrorMessage } from 'components/error-message/error-message';
 import { Pagination } from 'components/pagination/pagination';
 import { useLimitPerPage } from 'hooks/useLimitPerPage';
 import { useSearchQuery } from 'hooks/useSearchQuery';
+import { API_METHODS } from 'consts/consts';
+import { usePagination } from 'hooks/usePagination';
 
 export const MainPage = () => {
   const [limit, setLimitPerPage] = useLimitPerPage();
   const [searchQuery, setSearchQuery] = useSearchQuery();
-  const [data, isLoading, hasError] = useFetch(searchQuery, limit);
+  const [page, total, paginationState, setPage] = usePagination(
+    searchQuery,
+    limit
+  );
+  const [data, isLoading, hasError] = useFetch(
+    API_METHODS.all_shows,
+    searchQuery,
+    limit,
+    page
+  );
 
   const handleSearch = (value: string) => {
     setSearchQuery(value);
+    setPage('1');
   };
 
   return (
@@ -28,17 +40,32 @@ export const MainPage = () => {
       {hasError && (
         <ErrorMessage text="Oops... An error occurred. Please try again later"></ErrorMessage>
       )}
-      {!isLoading && data?.result && (
+      {!isLoading && data?.result && Boolean(data?.result.length) && (
         <>
           <CardsList result={data.result}></CardsList>
           <Pagination
             limit={limit}
             setLimitPerPage={setLimitPerPage}
+            total={total}
+            setPage={setPage}
+            page={page}
+            paginationState={paginationState}
           ></Pagination>
         </>
       )}
-      {!isLoading && !hasError && !data?.result && (
-        <ErrorMessage text="No results found. Remove the search term and try again"></ErrorMessage>
+      {!isLoading && !hasError && !data?.result.length && (
+        <div>
+          <ErrorMessage text="No results found. Remove the search term and try again"></ErrorMessage>
+          {Number(page) > total && (
+            <button
+              onClick={() => {
+                setPage('1');
+              }}
+            >
+              Reload the page
+            </button>
+          )}
+        </div>
       )}
     </>
   );

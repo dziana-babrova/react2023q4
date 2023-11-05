@@ -28,6 +28,13 @@
     align-items: center;
     font-size: large;
     font-weight: 500;
+    border-radius: 0;
+
+    &:disabled {
+      border: none;
+      outline: none;
+      cursor: auto;
+    }
   }
 
   &-counter {

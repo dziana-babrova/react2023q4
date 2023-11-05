@@ -1,5 +1,4 @@
 @mixin button() {
-  border: none;
   outline: none;
   display: flex;
   justify-content: center;
@@ -8,10 +7,6 @@
   font-size: medium;
   color: white;
   border-radius: 0;
-
-  &:hover {
-    outline: none;
-  }
 
   &:active {
     box-shadow: $color-button-focus 0px 2px 4px 0px inset;

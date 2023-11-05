@@ -1,9 +1,14 @@
-export async function getAllCharacters(searchValue: string, limit: string) {
+export async function getAllCharacters<T>(
+  method: string,
+  searchValue: string,
+  limit: string,
+  page: string
+): Promise<T> {
   const response = await fetch(`https://api.myshows.me/v2/rpc/`, {
     method: 'POST',
     body: JSON.stringify({
       jsonrpc: '2.0',
-      method: 'shows.Get',
+      method: method,
       params: {
         search: {
           network: 0,
@@ -16,12 +21,13 @@ export async function getAllCharacters(searchValue: string, limit: string) {
           sort: 'string',
           query: searchValue,
         },
-        page: 2,
+        page: page,
         pageSize: limit,
       },
       id: 1,
     }),
   });
   const data = await response.json();
+  console.log(data);
   return data;
 }

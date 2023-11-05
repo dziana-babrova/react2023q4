@@ -15,7 +15,7 @@ export type Show = {
   category: string;
 };
 
-export type ApiResponse = {
-  result: Show[];
+export type ApiResponse<T> = {
+  result: T;
   jsonrpc: string;
 };

@@ -22,3 +22,8 @@ export const URL_SEARCH_PARAMS = {
     default_value: '1',
   },
 };
+
+export const API_METHODS = {
+  all_shows: 'shows.Get',
+  count: 'shows.Count',
+};

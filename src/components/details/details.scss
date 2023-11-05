@@ -3,10 +3,11 @@
 }
 
 .overlay {
-  // position: absolute;
-  // width: 100vw;
-  // height: calc(100vh - 70px);
-  // background-color: rgba(0, 0, 0, 0.177);
+  position: absolute;
+  width: 100%;
+  left: -50%;
+  height: calc(100vh - 70px);
+  background-color: rgba(0, 0, 0, 0.177);
 }
 
 .details-content {

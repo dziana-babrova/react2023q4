@@ -1,4 +1,4 @@
-export async function getAllCharacters<T>(
+export async function getAllData<T>(
   method: string,
   searchValue: string,
   limit: string,
@@ -27,7 +27,23 @@ export async function getAllCharacters<T>(
       id: 1,
     }),
   });
+  const data: T = await response.json();
+  return data;
+}
+
+export async function getShow(id: number) {
+  const response = await fetch(`https://api.myshows.me/v2/rpc/`, {
+    method: 'POST',
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      method: 'shows.GetById',
+      params: {
+        showId: id,
+        withEpisodes: false,
+      },
+      id: 1,
+    }),
+  });
   const data = await response.json();
-  console.log(data);
   return data;
 }

@@ -1,7 +1,7 @@
 import { API_METHODS, URL_SEARCH_PARAMS } from 'consts/consts';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { getAllCharacters } from 'services/api-service';
+import { getAllData } from 'services/api-service';
 import { ApiResponse } from 'src/types/api-types';
 
 export type PaginationState = {
@@ -62,7 +62,7 @@ export const usePagination: usePaginationType = (value, limit) => {
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const data = await getAllCharacters<ApiResponse<number>>(
+        const data = await getAllData<ApiResponse<number>>(
           API_METHODS.count,
           value,
           limit,

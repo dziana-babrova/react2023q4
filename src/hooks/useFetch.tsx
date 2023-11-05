@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAllCharacters } from 'services/api-service';
+import { getAllData } from 'services/api-service';
 import { ApiResponse } from 'src/types/api-types';
 import { Show } from 'src/types/api-types';
 
@@ -20,7 +20,7 @@ export const useFetch: useFetchType = (method, value, limit, page) => {
       try {
         setIsLoading(true);
         setState(null);
-        const data = await getAllCharacters<ApiResponse<Show[]>>(
+        const data = await getAllData<ApiResponse<Show[]>>(
           method,
           value,
           limit,

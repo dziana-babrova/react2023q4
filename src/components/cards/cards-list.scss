@@ -1,3 +1,15 @@
+.content-list {
+  flex-shrink: 1;
+}
+
+.content-list:has(+ .details) {
+  .cards {
+    .cards-item {
+      flex: 0 0 45%;
+    }
+  }
+}
+
 .cards {
   display: flex;
   list-style-type: none;
@@ -17,6 +29,14 @@
     rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
     rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
   color: $color-text-primary;
+
+  @media (max-width: 1000px) {
+    flex: 0 0 30%;
+  }
+
+  @media (max-width: 750px) {
+    flex: 0 0 45%;
+  }
 }
 
 .card-container {

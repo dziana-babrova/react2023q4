@@ -14,4 +14,7 @@ export const URL_SEARCH_PARAMS = {
       option7: '32',
     },
   },
+  search_query: {
+    name: 'search',
+  },
 };

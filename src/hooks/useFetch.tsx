@@ -16,6 +16,7 @@ export const useFetch = (
         setIsLoading(true);
         setState(null);
         const data = await getAllCharacters(value, limit);
+        console.log(data);
         setState(data);
       } catch {
         setHasError(true);

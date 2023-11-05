@@ -1,12 +1,12 @@
-import { Product } from 'src/types/api-types';
+import { Show } from 'src/types/api-types';
 
-type CardProps = Pick<Product, 'thumbnail' | 'title' | 'category'>;
+type CardProps = Pick<Show, 'image' | 'title' | 'category'>;
 
-export const Card = ({ thumbnail, title, category }: CardProps) => {
+export const Card = ({ image, title, category }: CardProps) => {
   return (
     <li className="cards-item">
       <div className="card-container">
-        <img className="card-image" src={thumbnail}></img>
+        <img className="card-image" src={image}></img>
         <div className="card-info">
           <p className="card-name">{title}</p>
           <p className="card-species">{category}</p>

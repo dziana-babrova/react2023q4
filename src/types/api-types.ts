@@ -1,20 +1,21 @@
-export type Product = {
+export type Show = {
   id: number;
   title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
+  titleOriginal: string;
+  status: string;
+  totalSeasons: 3;
+  year: number;
+  watching: number;
+  voted: number;
   rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
   images: string[];
+  image: string;
+  onlineCount: number | null;
+  promoUrl: string | null;
+  category: string;
 };
 
 export type ApiResponse = {
-  products: Product[];
-  total: number;
-  skip: number;
-  limit: number;
+  result: Show[];
+  jsonrpc: string;
 };

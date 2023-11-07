@@ -31,7 +31,7 @@ export async function getAllData<T>(
   return data;
 }
 
-export async function getShow(id: number) {
+export async function getShow(id: string) {
   const response = await fetch(`https://api.myshows.me/v2/rpc/`, {
     method: 'POST',
     body: JSON.stringify({

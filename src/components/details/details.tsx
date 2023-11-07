@@ -3,22 +3,24 @@ import './details.scss';
 import { Loader } from 'components/loader/loader';
 import { ErrorMessage } from 'components/error-message/error-message';
 import { Link, useOutletContext } from 'react-router-dom';
+import { URL_SEARCH_PARAMS } from 'consts/consts';
 
 export type OutletContext = {
   limit: string;
   searchQuery: string;
+  page: string;
 };
 
 export const Details = () => {
-  const context = useOutletContext<OutletContext>();
-  const [data, isLoading, hasError] = useDetailedInfo(
-    context.limit,
-    context.searchQuery
-  );
+  const { limit, searchQuery, page } = useOutletContext<OutletContext>();
+  const [data, isLoading, hasError] = useDetailedInfo();
 
   return (
     <div className="details">
-      <Link to="/" className="overlay"></Link>
+      <Link
+        to={`/?${URL_SEARCH_PARAMS.page.name}=${page}&${URL_SEARCH_PARAMS.limit_per_page.name}=${limit}&${URL_SEARCH_PARAMS.search_query.name}=${searchQuery}`}
+        className="overlay"
+      ></Link>
       <div className="details-content">
         {isLoading && <Loader></Loader>}
         {hasError && (

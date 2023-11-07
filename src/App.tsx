@@ -11,9 +11,8 @@ function App() {
     <ErrorBoundary>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<MainPage />} />
-          <Route path="details" element={<MainPage />}>
-            <Route path=":id" element={<Details />} />
+          <Route path="/" element={<MainPage />}>
+            <Route path="details/:id" element={<Details />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Route>

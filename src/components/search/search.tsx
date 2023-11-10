@@ -1,17 +1,16 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useContext, useRef } from 'react';
 import './search.scss';
+import { Context } from 'context/app-context';
+import { URL_SEARCH_PARAMS } from 'consts/consts';
 
-type SearchBarProps = {
-  searchValue: string;
-  setSearchValue: (value: string) => void;
-};
-
-export const SearchBar = ({ searchValue, setSearchValue }: SearchBarProps) => {
+export const SearchBar = () => {
   const searchRef = useRef<HTMLInputElement>(null);
+  const context = useContext(Context);
 
   const onClick = (e: FormEvent) => {
     e.preventDefault();
-    setSearchValue(searchRef.current?.value || '');
+    context?.setSearchQuery(searchRef.current?.value || '');
+    context?.setPage(URL_SEARCH_PARAMS.page.default_value);
   };
 
   return (
@@ -21,7 +20,7 @@ export const SearchBar = ({ searchValue, setSearchValue }: SearchBarProps) => {
         type="search"
         ref={searchRef}
         placeholder="SEARCH"
-        defaultValue={searchValue}
+        defaultValue={context?.searchQuery}
       />
       <span className="search-submit" onClick={onClick} />
     </form>

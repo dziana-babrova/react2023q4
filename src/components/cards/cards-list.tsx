@@ -1,15 +1,18 @@
-import { ApiResponse, Show } from 'src/types/api-types';
+import { Show } from 'src/types/api-types';
 import { Card } from './card';
 import './cards-list.scss';
+import { useContext } from 'react';
+import { Context } from 'context/app-context';
 
-type CardsListProps = Pick<ApiResponse<Show[]>, 'result'>;
-
-export const CardsList = ({ result }: CardsListProps) => {
+export const CardsList = () => {
+  const context = useContext(Context);
   return (
     <ul className="cards">
-      {result.map((show: Pick<Show, 'image' | 'title' | 'status' | 'id'>) => {
-        return <Card key={show.id} {...show}></Card>;
-      })}
+      {context?.data?.result.map(
+        (show: Pick<Show, 'image' | 'title' | 'status' | 'id'>) => {
+          return <Card key={show.id} {...show}></Card>;
+        }
+      )}
     </ul>
   );
 };

@@ -268,7 +268,7 @@ export const singleShow: SingleShowApiResponse = {
     year: 2013,
     tvrageId: 15794,
     imdbId: null,
-    imdbRating: null,
+    imdbRating: 3.71,
     imdbVoted: null,
     imdbUrl: null,
     watching: 45,

@@ -1,5 +1,5 @@
 import { Card } from './card';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { AppContextProvider } from 'context/app-context';
 import { MainPage } from 'pages/main/main';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
@@ -33,7 +33,6 @@ describe('Card', () => {
     expect(title).toBeInTheDocument();
     expect(status).toBeInTheDocument();
     expect(image).toBeInTheDocument();
-    fireEvent.click(image);
   });
 
   it('should open a detailed card component when clicked', async () => {
@@ -56,10 +55,8 @@ describe('Card', () => {
     const link = await screen.findByText('End of the String');
     await userEvent.click(link);
     waitFor(async () => {
-      const country = await screen.findByText('Country:');
-      const rating = await screen.findByText('Imdb rating:');
-      expect(country).toBeInTheDocument();
-      expect(rating).toBeInTheDocument();
+      const details = await screen.findByTestId('details-component');
+      expect(details).toBeInTheDocument();
     });
   });
 

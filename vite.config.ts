@@ -34,6 +34,8 @@ export default defineConfig({
       enabled: true,
       provider: 'v8',
       reporter: ['text'],
+      include: ['src/**/*.tsx', 'src/**/*.ts'],
+      exclude: ['src/types/*'],
     },
   },
 });

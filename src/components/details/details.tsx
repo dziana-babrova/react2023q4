@@ -16,7 +16,7 @@ export const Details = () => {
   const [data, isLoading, hasError] = useDetailedInfo();
 
   return (
-    <div className="details">
+    <div className="details" data-testid="details-component">
       <Link
         to={`/?${URL_SEARCH_PARAMS.page.name}=${page}&${URL_SEARCH_PARAMS.limit_per_page.name}=${limit}&${URL_SEARCH_PARAMS.search_query.name}=${searchQuery}`}
         className="overlay"
@@ -56,6 +56,7 @@ export const Details = () => {
             <Link
               className="close-button"
               to={`/?${URL_SEARCH_PARAMS.page.name}=${page}&${URL_SEARCH_PARAMS.limit_per_page.name}=${limit}&${URL_SEARCH_PARAMS.search_query.name}=${searchQuery}`}
+              data-testid="close-button"
             ></Link>
           </>
         )}

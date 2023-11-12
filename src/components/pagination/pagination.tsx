@@ -16,7 +16,6 @@ export const Pagination = () => {
         disabled={context?.paginationState.first.disabled}
         className="pagination-button"
         onClick={() => {
-          console.log(context);
           context?.setPage(context?.paginationState.first.value.toString());
         }}
       >
@@ -44,6 +43,7 @@ export const Pagination = () => {
       <button
         disabled={context?.paginationState.last.disabled}
         className="pagination-button"
+        data-testid="page-next"
         onClick={() => {
           context?.setPage(context?.paginationState.last.value.toString());
         }}

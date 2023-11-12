@@ -247,7 +247,7 @@ export const noResults = {
 
 export const totalResult = {
   jsonrpc: '2.0',
-  result: 7,
+  result: 20,
   id: 1,
 };
 

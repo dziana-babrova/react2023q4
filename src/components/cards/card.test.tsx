@@ -1,12 +1,12 @@
 import { Card } from './card';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { AppContextProvider } from 'context/app-context';
-import { MainPage } from 'pages/main/main';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { allResults, singleShow } from 'test-data/fetched-data';
 import { vi } from 'vitest';
 import * as moduleApi from 'services/api-service';
 import userEvent from '@testing-library/user-event';
+import App from './../../App';
 
 describe('Card', () => {
   afterEach(() => {
@@ -45,43 +45,36 @@ describe('Card', () => {
     );
 
     render(
-      <BrowserRouter>
-        <AppContextProvider>
-          <MainPage />
-        </AppContextProvider>
-      </BrowserRouter>
+      <MemoryRouter initialEntries={['']}>
+        <App />
+      </MemoryRouter>
     );
 
     const link = await screen.findByText('End of the String');
     await userEvent.click(link);
-    waitFor(async () => {
-      const details = await screen.findByTestId('details-component');
-      expect(details).toBeInTheDocument();
-    });
+    const details = await screen.findByTestId('details-component');
+    expect(details).toBeInTheDocument();
   });
 
   it('should trigger an additional API call to fetch detailed information', async () => {
-    const spyOnAllData = vi
-      .spyOn(moduleApi, 'getAllData')
-      .mockImplementation(() => Promise.resolve(allResults));
+    const user = userEvent.setup();
+    vi.spyOn(moduleApi, 'getAllData').mockImplementation(() =>
+      Promise.resolve(allResults)
+    );
 
     const spyOnShow = vi
       .spyOn(moduleApi, 'getShow')
       .mockImplementation(() => Promise.resolve(singleShow));
 
     render(
-      <BrowserRouter>
-        <AppContextProvider>
-          <MainPage />
-        </AppContextProvider>
-      </BrowserRouter>
+      <MemoryRouter initialEntries={['']}>
+        <App />
+      </MemoryRouter>
     );
 
     const link = await screen.findByText('End of the String');
     expect(spyOnShow).not.toHaveBeenCalled();
-    await userEvent.click(link);
-    waitFor(async () => {
-      expect(spyOnAllData).toHaveBeenCalled();
-    });
+    await user.click(link);
+    expect(spyOnShow).toHaveBeenCalled();
   });
 });

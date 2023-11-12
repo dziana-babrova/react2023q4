@@ -1,3 +1,5 @@
+import { SingleShowApiResponse } from 'src/types/api-types';
+
 export const allResults = {
   jsonrpc: '2.0',
   result: [
@@ -119,7 +121,7 @@ export const allResults = {
     },
     {
       id: 49465,
-      title: 'End of the String',
+      title: 'End of the Strings',
       titleOriginal: 'End of the String',
       status: 'Canceled/Ended',
       totalSeasons: 1,
@@ -246,5 +248,50 @@ export const noResults = {
 export const totalResult = {
   jsonrpc: '2.0',
   result: 7,
+  id: 1,
+};
+
+export const singleShow: SingleShowApiResponse = {
+  jsonrpc: '2.0',
+  result: {
+    id: 49467,
+    title: 'End of the String',
+    titleOriginal: 'End of the String',
+    description:
+      "<p>Tithit meets Gandaomanee Girinisuan in Phrajoit and falls in love with her. Unbeknownst to Thit, Gandaomanee is using her elder twin sister's name, Gandaowasee, for herself, therefore tricking him into thinking her real name is Gandaowasee. She later leaves him when she grows tired of him and finds out that he's the poor son of a merchant (his mother makes Thai desserts). Thit is heart-broken and tries searching for her unsuccessfully.</p><p>One year later, Thit meets the real Gandaowasee Kitrinisuan at a banquet and is ecstatic upon seeing her. But Gan claims she doesn't know him. Thit is confused and confronts Gan about their relationship. He assumes she doesn't want to remember him because he's poor, therefore denying ever knowing him.</p>",
+    totalSeasons: 1,
+    status: 'Canceled/Ended',
+    country: 'TH',
+    countryTitle: 'Thailand',
+    started: 'Jul/15/2013',
+    ended: 'Sep/09/2013',
+    year: 2013,
+    tvrageId: 15794,
+    imdbId: null,
+    imdbRating: null,
+    imdbVoted: null,
+    imdbUrl: null,
+    watching: 45,
+    watchingTotal: 840859,
+    voted: 17,
+    rating: 3.71,
+    runtime: 65,
+    runtimeTotal: '18 hours 25 minutes',
+    images: ['ed1e7bfb97e1a2bc87b6e5a7460a322b.jpg'],
+    image:
+      'https://media.myshows.me/shows/normal/e/d1/ed1e7bfb97e1a2bc87b6e5a7460a322b.jpg',
+    genreIds: [6, 7],
+    network: {
+      id: 3430635,
+      title: 'Channel 5',
+      country: 'TH',
+    },
+    onlineLinks: [],
+    onlineLinkExclusive: null,
+    kinopoiskId: null,
+    kinopoiskRating: null,
+    kinopoiskVoted: null,
+    kinopoiskUrl: null,
+  },
   id: 1,
 };

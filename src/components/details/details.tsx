@@ -53,7 +53,10 @@ export const Details = () => {
                 <p className="details-info-content">{data.result.imdbRating}</p>
               </div>
             </div>
-            <Link className="close-button" to="/"></Link>
+            <Link
+              className="close-button"
+              to={`/?${URL_SEARCH_PARAMS.page.name}=${page}&${URL_SEARCH_PARAMS.limit_per_page.name}=${limit}&${URL_SEARCH_PARAMS.search_query.name}=${searchQuery}`}
+            ></Link>
           </>
         )}
       </div>

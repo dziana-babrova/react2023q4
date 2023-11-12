@@ -21,6 +21,7 @@ export type ApiResponse<T> = {
 };
 
 export type SingleShowApiResponse = {
+  jsonrpc: string;
   result: {
     id: number;
     title: string;
@@ -33,15 +34,15 @@ export type SingleShowApiResponse = {
     started: string;
     ended: string;
     year: number;
-    kinopoiskId: number;
-    kinopoiskRating: number;
-    kinopoiskVoted: number;
-    kinopoiskUrl: string;
+    kinopoiskId: number | null;
+    kinopoiskRating: number | null;
+    kinopoiskVoted: number | null;
+    kinopoiskUrl: string | null;
     tvrageId: number;
-    imdbId: string;
-    imdbRating: number;
-    imdbVoted: number;
-    imdbUrl: string;
+    imdbId: string | null;
+    imdbRating: number | null;
+    imdbVoted: number | null;
+    imdbUrl: string | null;
     watching: number;
     watchingTotal: number;
     voted: number;
@@ -56,20 +57,22 @@ export type SingleShowApiResponse = {
       title: string;
       country: string;
     };
-    onlineLinks: [
-      {
-        title: string;
-        description: string;
-        source: string;
-        url: string;
-      }
-    ];
+    onlineLinks:
+      | [
+          {
+            title: string;
+            description: string;
+            source: string;
+            url: string;
+          }
+        ]
+      | [];
     onlineLinkExclusive: {
       title: string;
       description: string;
       source: string;
       url: string;
-    };
+    } | null;
   };
   id: number;
 };

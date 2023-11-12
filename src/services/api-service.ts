@@ -1,3 +1,5 @@
+import { SingleShowApiResponse } from 'src/types/api-types';
+
 export async function getAllData<T>(
   method: string,
   searchValue: string,
@@ -44,6 +46,6 @@ export async function getShow(id: string) {
       id: 1,
     }),
   });
-  const data = await response.json();
+  const data: SingleShowApiResponse = await response.json();
   return data;
 }

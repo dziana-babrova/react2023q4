@@ -25,7 +25,8 @@
       "consts/*": ["src/consts/*"],
       "services/*": ["src/services/*"],
       "hooks/*": ["src/hooks/*"],
-      "context/*": ["src/context/*"]
+      "context/*": ["src/context/*"],
+      "test-data/*": ["src/test-data/*"]
     }
   },
   "include": ["src"],

@@ -6,7 +6,7 @@ import { useSearchQuery } from 'hooks/useSearchQuery';
 import React, { createContext, PropsWithChildren } from 'react';
 import { ApiResponse, Show } from 'src/types/api-types';
 
-type ContextType = {
+export type ContextType = {
   limit: string;
   setLimitPerPage: (limit: string) => void;
   searchQuery: string;

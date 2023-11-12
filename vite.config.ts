@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
@@ -14,6 +14,7 @@ export default defineConfig({
       services: path.resolve(__dirname, './src/services'),
       hooks: path.resolve(__dirname, './src/hooks'),
       context: path.resolve(__dirname, './src/context'),
+      'test-data': path.resolve(__dirname, './src/test-data'),
     },
   },
   css: {
@@ -22,6 +23,17 @@ export default defineConfig({
         additionalData:
           '@import "src/styles/colors.scss"; @import "src/styles/sizes.scss"; @import "src/styles/fonts.scss"; @import "src/styles/mixins.scss";',
       },
+    },
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './setupTests.ts',
+    coverage: {
+      all: true,
+      enabled: true,
+      provider: 'v8',
+      reporter: ['text'],
     },
   },
 });

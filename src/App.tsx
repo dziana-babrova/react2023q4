@@ -1,5 +1,5 @@
 import './App.scss';
-import { MainPage } from 'pages/main';
+import { MainPage } from 'pages/main/main';
 import ErrorBoundary from 'components/error-boundary/error-boundary';
 import { Routes, Route } from 'react-router-dom';
 import { NotFoundPage } from 'pages/not-found';

@@ -22,7 +22,11 @@ export const SearchBar = () => {
         placeholder="SEARCH"
         defaultValue={context?.searchQuery}
       />
-      <span className="search-submit" onClick={onClick} />
+      <span
+        className="search-submit"
+        onClick={onClick}
+        data-testid="search-submit"
+      />
     </form>
   );
 };

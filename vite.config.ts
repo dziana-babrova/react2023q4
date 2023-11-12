@@ -35,7 +35,7 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text'],
       include: ['src/**/*.tsx', 'src/**/*.ts'],
-      exclude: ['src/types/*'],
+      exclude: ['src/types/*', 'src/consts/*', 'src/vite-env.d.ts'],
     },
   },
 });

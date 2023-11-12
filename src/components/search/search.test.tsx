@@ -32,7 +32,7 @@ describe('Search component', async () => {
     expect(local).toBe(searchTerm);
   });
 
-  it('should update URL query parameter when page changes', async () => {
+  it('should retrieve the value from the local storage upon mounting', async () => {
     const searchTerm = 'game';
     localStorage.setItem(SEARCH_TERM, searchTerm);
 

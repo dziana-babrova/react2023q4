@@ -26,4 +26,5 @@ export const URL_SEARCH_PARAMS = {
 export const API_METHODS = {
   all_shows: 'shows.Get',
   count: 'shows.Count',
+  single_show: 'shows.GetById',
 };

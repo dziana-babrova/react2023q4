@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 export const pageSlice = createSlice({
   name: 'page',
@@ -15,4 +16,4 @@ export const pageSlice = createSlice({
 
 export const { setPage } = pageSlice.actions;
 
-export default pageSlice;
+export const selectPage = (state: RootState) => state.page.value;

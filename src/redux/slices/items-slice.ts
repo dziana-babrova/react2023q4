@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 export const itemsSlice = createSlice({
   name: 'items',
@@ -14,3 +15,5 @@ export const itemsSlice = createSlice({
 });
 
 export const { setItemsPerPage } = itemsSlice.actions;
+
+export const selectItems = (state: RootState) => state.items.value;

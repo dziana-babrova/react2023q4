@@ -7,9 +7,12 @@ import { URL_SEARCH_PARAMS } from 'consts/consts';
 import { Outlet } from 'react-router-dom';
 import { useContext } from 'react';
 import { Context } from 'context/app-context';
+// import { useDispatch } from 'react-redux';
+// import { AppDispatch } from 'src/redux/store';
 
 export const MainPage = () => {
   const context = useContext(Context);
+  // const dispatch = useDispatch<AppDispatch>();
 
   return (
     <>

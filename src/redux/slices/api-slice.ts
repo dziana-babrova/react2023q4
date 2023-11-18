@@ -12,12 +12,12 @@ type ApiProps = {
 export const apiSlice = createApi({
   reducerPath: 'api',
 
-  baseQuery: fetchBaseQuery({ baseUrl: '/fakeApi' }),
+  baseQuery: fetchBaseQuery({ baseUrl: API.all_shows }),
 
   endpoints: (builder) => ({
     getShows: builder.query<ApiResponse<Show>, ApiProps>({
       query: ({ searchValue, page, limit }) => ({
-        url: API.all_shows,
+        url: '',
         method: 'POST',
         body: JSON.stringify({
           jsonrpc: '2.0',
@@ -44,7 +44,7 @@ export const apiSlice = createApi({
 
     getTotal: builder.query<ApiResponse<number>, ApiProps>({
       query: ({ searchValue, page, limit }) => ({
-        url: API.all_shows,
+        url: '',
         method: 'POST',
         body: JSON.stringify({
           jsonrpc: '2.0',
@@ -70,7 +70,7 @@ export const apiSlice = createApi({
     }),
     getShow: builder.query<SingleShowApiResponse, string>({
       query: (id) => ({
-        url: API.all_shows,
+        url: '',
         method: 'POST',
         body: JSON.stringify({
           jsonrpc: '2.0',

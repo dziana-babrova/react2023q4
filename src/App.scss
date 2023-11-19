@@ -1,0 +1,37 @@
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  text-align: center;
+  background-position: top;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-wrapper {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.app-content {
+  flex-grow: 1;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  position: relative;
+}
+
+.page-header {
+  display: flex;
+  justify-content: center;
+  margin: 0 20px;
+  font-size: larger;
+  width: 100%;
+
+  .page-title {
+    margin: 10px 0;
+  }
+}

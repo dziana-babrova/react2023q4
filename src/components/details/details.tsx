@@ -1,25 +1,20 @@
 import './details.scss';
 import { Loader } from 'components/loader/loader';
 import { ErrorMessage } from 'components/error-message/error-message';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { URL_SEARCH_PARAMS } from 'consts/consts';
-import { useGetShowQuery } from 'store-manager/slices/api-slice';
 import { useSelector } from 'react-redux';
-import { ShowState } from 'store-manager/slices/show-slice';
 import { RootState } from 'store-manager/store';
 import { selectItems } from 'store-manager/slices/items-slice';
 import { selectPage } from 'store-manager/slices/page-slice';
 import { selectSearch } from 'store-manager/slices/search-slice';
+import { useDetailedInfo } from 'hooks/useDetailedInfo';
 
 export const Details = () => {
   const limit = useSelector<RootState, string>(selectItems);
   const page = useSelector<RootState, string>(selectPage);
   const search = useSelector<RootState, string>(selectSearch);
-  const { id } = useParams();
-  const { data } = useGetShowQuery(id || '');
-  const { loading, error } = useSelector<RootState, ShowState>(
-    (state) => state.show
-  );
+  const { data, loading, error } = useDetailedInfo();
 
   return (
     <div className="details" data-testid="details-component">

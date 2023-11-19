@@ -16,11 +16,6 @@ describe('Card', () => {
   });
 
   it('should render the relevant card data', async () => {
-    global.fetch = vi.fn().mockImplementation(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(allResults),
-      })
-    );
     render(
       <MemoryRouter initialEntries={[``]}>
         <Card {...allResults.result[0]} />
@@ -36,8 +31,6 @@ describe('Card', () => {
   });
 
   it('should open a detailed card component when clicked', async () => {
-    global.fetch = vi.fn().mockResolvedValue(allResults.result[0]);
-
     const Element = (
       <div>
         <Card {...allResults.result[0]} />
@@ -66,7 +59,6 @@ describe('Card', () => {
   });
 
   it('should trigger an additional API call to fetch detailed information', async () => {
-    global.fetch = vi.fn().mockResolvedValue(allResults.result[0]);
     const spyOnCall = vi.spyOn(api, 'useGetShowQuery');
     const user = userEvent.setup();
 

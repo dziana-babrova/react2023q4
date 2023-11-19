@@ -1,27 +1,37 @@
 import { render, screen } from '@testing-library/react';
-import { AppContextProvider } from 'context/app-context';
-import { BrowserRouter } from 'react-router-dom';
-import { allResults } from 'test-data/fetched-data';
-import { vi } from 'vitest';
+import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { SearchBar } from './search';
 import { SEARCH_TERM } from 'consts/consts';
+import { Provider } from 'react-redux';
+import { store } from 'store-manager/store';
+import { useParams } from 'hooks/useParams';
 
 describe('Search component', async () => {
-  it('should update URL query parameter when page changes', async () => {
+  afterEach(() => {
+    localStorage.clear();
+  });
+
+  it('should set the value to the local storage', async () => {
     const searchTerm = 'game';
     const user = userEvent.setup();
 
-    global.fetch = vi.fn().mockReturnValue({
-      json: () => Promise.resolve(allResults),
-    });
+    const Search = () => {
+      useParams();
+
+      return (
+        <>
+          <SearchBar></SearchBar>
+        </>
+      );
+    };
 
     render(
-      <BrowserRouter>
-        <AppContextProvider>
-          <SearchBar />
-        </AppContextProvider>
-      </BrowserRouter>
+      <MemoryRouter initialEntries={['/search=']}>
+        <Provider store={store}>
+          <Search />
+        </Provider>
+      </MemoryRouter>
     );
 
     const searchInput = await screen.findByPlaceholderText('SEARCH');
@@ -36,18 +46,22 @@ describe('Search component', async () => {
     const searchTerm = 'game';
     localStorage.setItem(SEARCH_TERM, searchTerm);
 
-    global.fetch = vi.fn().mockReturnValue({
-      json: () => Promise.resolve(allResults),
-    });
+    const Search = () => {
+      useParams();
+      return (
+        <>
+          <SearchBar></SearchBar>
+        </>
+      );
+    };
 
     render(
-      <BrowserRouter>
-        <AppContextProvider>
-          <SearchBar />
-        </AppContextProvider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Search />
+        </BrowserRouter>
+      </Provider>
     );
-
     const searchInput = await screen.findByPlaceholderText('SEARCH');
     expect(searchInput).toHaveDisplayValue(searchTerm);
   });

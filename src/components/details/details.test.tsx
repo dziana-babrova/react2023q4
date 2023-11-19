@@ -2,10 +2,12 @@ import { MemoryRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { allResults, singleShow } from 'test-data/fetched-data';
-import * as ApiCalls from 'services/api-service';
-import * as hook from 'hooks/useDetailedInfo';
 import userEvent from '@testing-library/user-event';
 import App from './../../App';
+import { Details } from './details';
+import { Provider } from 'react-redux';
+import { store } from 'store-manager/store';
+import * as hook from 'hooks/useDetailedInfo';
 
 describe('Detailed Card component', async () => {
   afterEach(() => {
@@ -14,51 +16,34 @@ describe('Detailed Card component', async () => {
 
   it('should display a loading indicator while fetching data', async () => {
     const user = userEvent.setup();
-    vi.spyOn(ApiCalls, 'getAllData').mockImplementation(() =>
-      Promise.resolve(allResults)
-    );
-
-    vi.spyOn(ApiCalls, 'getShow').mockImplementation(() =>
-      Promise.resolve(singleShow)
-    );
-
-    const spy = vi
-      .spyOn(hook, 'useDetailedInfo')
-      .mockReturnValue([null, true, false]);
+    vi.spyOn(hook, 'useDetailedInfo').mockReturnValue({
+      data: singleShow,
+      loading: true,
+      error: false,
+    });
 
     render(
-      <MemoryRouter initialEntries={[``]}>
-        <App />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={[`/`]}>
+          <Details />
+        </MemoryRouter>
+      </Provider>
     );
-
-    const link = await screen.findByText('End of the String');
-    await user.click(link);
-    const details = await screen.findByTestId('details-component');
-    expect(details).toBeInTheDocument();
-    const loading = await screen.findByText('Loading...');
+    const item = await screen.findByText(allResults.result[0].title);
+    user.click(item);
+    const loading = screen.getByText('Loading...');
     expect(loading).toBeInTheDocument();
-    expect(spy).toHaveBeenCalled();
   });
 
   it('should display the detailed card data', async () => {
-    const user = userEvent.setup();
-    vi.spyOn(ApiCalls, 'getAllData').mockImplementation(() =>
-      Promise.resolve(allResults)
-    );
-
-    vi.spyOn(ApiCalls, 'getShow').mockImplementation(() =>
-      Promise.resolve(singleShow)
-    );
-
     render(
-      <MemoryRouter initialEntries={[``]}>
-        <App />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={[``]}>
+          <Details />
+        </MemoryRouter>
+      </Provider>
     );
 
-    const link = await screen.findByText('End of the String');
-    await user.click(link);
     const countryLabel = await screen.findByText('Country:');
     const descriptionLabel = await screen.findByText('Description:');
     const yearLabel = await screen.findByText('Year:');
@@ -78,22 +63,14 @@ describe('Detailed Card component', async () => {
   });
 
   it('should hide the componentng on the close button click', async () => {
-    vi.spyOn(ApiCalls, 'getAllData').mockImplementation(() =>
-      Promise.resolve(allResults)
-    );
-
-    vi.spyOn(ApiCalls, 'getShow').mockImplementation(() =>
-      Promise.resolve(singleShow)
-    );
-
     render(
-      <MemoryRouter initialEntries={[``]}>
-        <App />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={[`/details/1`]}>
+          <App />
+        </MemoryRouter>
+      </Provider>
     );
 
-    const link = await screen.findByText('End of the String');
-    await userEvent.click(link);
     const details = await screen.findByTestId('details-component');
     const close = await screen.findByTestId('close-button');
     await userEvent.click(close);

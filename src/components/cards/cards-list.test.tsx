@@ -1,29 +1,24 @@
 import { render, screen } from '@testing-library/react';
-import { allResults, noResults } from 'test-data/fetched-data';
-import { CardsList } from './cards-list';
+import { allResults } from 'test-data/fetched-data';
 import { vi } from 'vitest';
-import { AppContextProvider } from 'context/app-context';
 import { MemoryRouter } from 'react-router-dom';
 import { MainPage } from 'pages/main/main';
+import { Provider } from 'react-redux';
+import { store } from 'store-manager/store';
+import { CardsList } from './cards-list';
 
 describe('Card list', () => {
-  const limit = 8;
+  const limit = '20';
   afterEach(() => {
     vi.clearAllMocks();
   });
 
   it('should contain specified number of card', async () => {
-    global.fetch = vi.fn().mockImplementation(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(allResults),
-      })
-    );
-
     render(
-      <MemoryRouter initialEntries={[`?limit=${limit}`]}>
-        <AppContextProvider>
-          <CardsList />
-        </AppContextProvider>
+      <MemoryRouter initialEntries={[`?limit=${limit}&page=${1}`]}>
+        <Provider store={store}>
+          <CardsList></CardsList>
+        </Provider>
       </MemoryRouter>
     );
 
@@ -33,20 +28,15 @@ describe('Card list', () => {
   });
 
   it('should display the appropriate message if no cards are present', async () => {
-    global.fetch = vi.fn().mockImplementation(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(noResults),
-      })
-    );
-
     render(
-      <MemoryRouter initialEntries={[`?limit=${limit}`]}>
-        <AppContextProvider>
+      <MemoryRouter
+        initialEntries={[`?limit=${limit}&page=${1}&search=no-results`]}
+      >
+        <Provider store={store}>
           <MainPage />
-        </AppContextProvider>
+        </Provider>
       </MemoryRouter>
     );
-
     const message = await screen.findByText(
       'No results found. Remove the search term and try again'
     );

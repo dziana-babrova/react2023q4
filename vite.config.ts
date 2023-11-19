@@ -9,11 +9,13 @@ export default defineConfig({
     alias: {
       components: path.resolve(__dirname, './src/components'),
       assets: path.resolve(__dirname, './src/assets'),
+      types: path.resolve(__dirname, './src/types'),
       pages: path.resolve(__dirname, './src/pages'),
       consts: path.resolve(__dirname, './src/consts'),
       services: path.resolve(__dirname, './src/services'),
       hooks: path.resolve(__dirname, './src/hooks'),
       context: path.resolve(__dirname, './src/context'),
+      'store-manager': path.resolve(__dirname, './src/store-manager'),
       'test-data': path.resolve(__dirname, './src/test-data'),
     },
   },

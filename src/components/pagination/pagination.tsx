@@ -1,51 +1,59 @@
 import { URL_SEARCH_PARAMS } from 'consts/consts';
-import { ChangeEvent, useContext } from 'react';
+import { ChangeEvent } from 'react';
 import './pagination.scss';
-import { Context } from 'context/app-context';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectItems, setItemsPerPage } from 'store-manager/slices/items-slice';
+import { AppDispatch, RootState } from 'store-manager/store';
+import { selectPage, setPage } from 'store-manager/slices/page-slice';
+import { usePagination } from 'hooks/usePagination';
 
 export const Pagination = () => {
-  const context = useContext(Context);
+  const dispatch = useDispatch<AppDispatch>();
+  const itemsPerPage = useSelector<RootState, string>(selectItems);
+  const page = useSelector<RootState, string>(selectPage);
+  const paginationState = usePagination();
+
   const changeItemsPerPage = (e: ChangeEvent<HTMLSelectElement>) => {
-    context?.setLimitPerPage(e.target.value);
-    context?.setPage(context?.paginationState.first.value.toString());
+    dispatch(setItemsPerPage(e.target.value));
+    dispatch(setPage(URL_SEARCH_PARAMS.limit_per_page.default_value));
   };
 
   return (
     <div className="pagination">
       <button
-        disabled={context?.paginationState.first.disabled}
+        disabled={paginationState.first.disabled}
         className="pagination-button"
         onClick={() => {
-          context?.setPage(context?.paginationState.first.value.toString());
+          dispatch(setPage(paginationState.first.value.toString()));
         }}
       >
         {'<<'}
       </button>
       <button
-        disabled={context?.paginationState.prev.disabled}
+        disabled={paginationState.prev.disabled}
         className="pagination-button"
         onClick={() => {
-          context?.setPage(context?.paginationState.prev.value.toString());
+          dispatch(setPage(paginationState.prev.value.toString()));
         }}
       >
         {'<'}
       </button>
-      <div className="pagination-counter">{`${context?.page} of ${context?.total}`}</div>
+      <div className="pagination-counter">{`${page} of ${paginationState.total}`}</div>
       <button
-        disabled={context?.paginationState.next.disabled}
+        disabled={paginationState.next.disabled}
         className="pagination-button"
         onClick={() => {
-          context?.setPage(context?.paginationState.next.value.toString());
+          dispatch(setPage(paginationState.next.value.toString()));
         }}
       >
         {'>'}
       </button>
       <button
-        disabled={context?.paginationState.last.disabled}
+        disabled={paginationState.last.disabled}
         className="pagination-button"
         data-testid="page-next"
         onClick={() => {
-          context?.setPage(context?.paginationState.last.value.toString());
+          dispatch(setPage(paginationState.last.value.toString()));
         }}
       >
         {'>>'}
@@ -54,7 +62,7 @@ export const Pagination = () => {
         className="pagination-select"
         name="items"
         id=""
-        defaultValue={context?.limit}
+        defaultValue={itemsPerPage}
         onChange={changeItemsPerPage}
       >
         {Object.values(URL_SEARCH_PARAMS.limit_per_page.options).map(

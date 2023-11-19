@@ -4,7 +4,7 @@ import { API_METHODS } from 'consts/consts';
 import { ApiResponse, Show, SingleShowApiResponse } from 'src/types/api-types';
 
 type ApiProps = {
-  searchValue: string;
+  search: string;
   page: string;
   limit: string;
 };
@@ -15,8 +15,8 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API.all_shows }),
 
   endpoints: (builder) => ({
-    getShows: builder.query<ApiResponse<Show>, ApiProps>({
-      query: ({ searchValue, page, limit }) => ({
+    getShows: builder.query<ApiResponse<Show[]>, ApiProps>({
+      query: ({ search, page, limit }) => ({
         url: '',
         method: 'POST',
         body: JSON.stringify({
@@ -32,7 +32,7 @@ export const apiSlice = createApi({
               category: 'string',
               status: 'string',
               sort: 'string',
-              query: searchValue,
+              query: search,
             },
             page: page,
             pageSize: limit,
@@ -43,7 +43,7 @@ export const apiSlice = createApi({
     }),
 
     getTotal: builder.query<ApiResponse<number>, ApiProps>({
-      query: ({ searchValue, page, limit }) => ({
+      query: ({ search, page, limit }) => ({
         url: '',
         method: 'POST',
         body: JSON.stringify({
@@ -59,7 +59,7 @@ export const apiSlice = createApi({
               category: 'string',
               status: 'string',
               sort: 'string',
-              query: searchValue,
+              query: search,
             },
             page: page,
             pageSize: limit,
@@ -68,6 +68,7 @@ export const apiSlice = createApi({
         }),
       }),
     }),
+
     getShow: builder.query<SingleShowApiResponse, string>({
       query: (id) => ({
         url: '',

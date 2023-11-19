@@ -3,16 +3,21 @@ import { CardsList } from 'components/cards/cards-list';
 import { Loader } from 'components/loader/loader';
 import { ErrorMessage } from 'components/error-message/error-message';
 import { Pagination } from 'components/pagination/pagination';
-import { URL_SEARCH_PARAMS } from 'consts/consts';
 import { Outlet } from 'react-router-dom';
-import { useContext } from 'react';
-import { Context } from 'context/app-context';
-// import { useDispatch } from 'react-redux';
-// import { AppDispatch } from 'src/redux/store';
+import { useParams } from 'hooks/useParams';
+import { useGetShowsQuery } from 'store-manager/slices/api-slice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store-manager/store';
+import { ShowsState } from 'store-manager/slices/shows-slice';
 
 export const MainPage = () => {
-  const context = useContext(Context);
-  // const dispatch = useDispatch<AppDispatch>();
+  const [search, limit, page] = useParams();
+
+  useGetShowsQuery({ search, limit, page });
+
+  const { loading, error, shows } = useSelector<RootState, ShowsState>(
+    (state) => state.shows
+  );
 
   return (
     <>
@@ -20,38 +25,23 @@ export const MainPage = () => {
         <div className="page-header">
           <SearchBar></SearchBar>
         </div>
-        {context?.isLoading && <Loader></Loader>}
-        {context?.hasError && (
+        {loading && <Loader></Loader>}
+        {error && (
           <ErrorMessage text="Oops... An error occurred. Please try again later"></ErrorMessage>
         )}
-        {!context?.isLoading &&
-          context?.data?.result &&
-          Boolean(context?.data?.result.length) && (
-            <>
-              <CardsList></CardsList>
-              <Pagination></Pagination>
-            </>
-          )}
-        {!context?.isLoading &&
-          !context?.hasError &&
-          !context?.data?.result.length && (
-            <div>
-              <ErrorMessage text="No results found. Remove the search term and try again"></ErrorMessage>
-              {Number(context?.page) > Number(context?.total) && (
-                <button
-                  onClick={() => {
-                    context?.setPage(URL_SEARCH_PARAMS.page.default_value);
-                  }}
-                >
-                  Reload the page
-                </button>
-              )}
-            </div>
-          )}
+        {!loading && shows?.result && Boolean(shows?.result.length) && (
+          <>
+            <CardsList></CardsList>
+            <Pagination></Pagination>
+          </>
+        )}
+        {!loading && !error && !Boolean(shows?.result.length) && (
+          <div>
+            <ErrorMessage text="No results found. Remove the search term and try again"></ErrorMessage>
+          </div>
+        )}
       </div>
-      <Outlet
-        context={{ limit: context?.limit, searchQuery: context?.searchQuery }}
-      ></Outlet>
+      <Outlet context={{ limit, searchQuery: search }}></Outlet>
     </>
   );
 };

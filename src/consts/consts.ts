@@ -16,6 +16,7 @@ export const URL_SEARCH_PARAMS = {
   },
   search_query: {
     name: 'search',
+    default_value: '',
   },
   page: {
     name: 'page',

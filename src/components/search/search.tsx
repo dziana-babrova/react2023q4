@@ -1,16 +1,23 @@
-import { FormEvent, useContext, useRef } from 'react';
+import { FormEvent, useRef } from 'react';
 import './search.scss';
-import { Context } from 'context/app-context';
 import { URL_SEARCH_PARAMS } from 'consts/consts';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  selectSearch,
+  setSearchValue,
+} from 'store-manager/slices/search-slice';
+import { AppDispatch, RootState } from 'store-manager/store';
+import { setPage } from 'store-manager/slices/page-slice';
 
 export const SearchBar = () => {
+  const value = useSelector<RootState, string>(selectSearch);
   const searchRef = useRef<HTMLInputElement>(null);
-  const context = useContext(Context);
+  const dispatch = useDispatch<AppDispatch>();
 
   const onClick = (e: FormEvent) => {
     e.preventDefault();
-    context?.setSearchQuery(searchRef.current?.value || '');
-    context?.setPage(URL_SEARCH_PARAMS.page.default_value);
+    dispatch(setSearchValue(searchRef.current?.value || ''));
+    dispatch(setPage(URL_SEARCH_PARAMS.page.default_value));
   };
 
   return (
@@ -20,7 +27,7 @@ export const SearchBar = () => {
         type="search"
         ref={searchRef}
         placeholder="SEARCH"
-        defaultValue={context?.searchQuery}
+        defaultValue={value}
       />
       <span
         className="search-submit"

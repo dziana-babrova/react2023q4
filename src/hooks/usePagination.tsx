@@ -1,10 +1,13 @@
-import { API_METHODS, URL_SEARCH_PARAMS } from 'consts/consts';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { getAllData } from 'services/api-service';
-import { ApiResponse } from 'src/types/api-types';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store-manager/store';
+import { selectSearch } from 'store-manager/slices/search-slice';
+import { selectItems } from 'store-manager/slices/items-slice';
+import { useGetTotalQuery } from 'store-manager/slices/api-slice';
+import { selectPage } from 'store-manager/slices/page-slice';
 
 export type PaginationState = {
+  total: number;
   first: {
     disabled: boolean;
     value: number;
@@ -23,24 +26,15 @@ export type PaginationState = {
   };
 };
 
-type usePaginationType = (
-  value: string,
-  limit: string
-) => [
-  string,
-  number,
-  PaginationState,
-  React.Dispatch<React.SetStateAction<string>>
-];
+type usePaginationType = () => PaginationState;
 
-export const usePagination: usePaginationType = (value, limit) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = useState(
-    searchParams.get(URL_SEARCH_PARAMS.page.name) ||
-      URL_SEARCH_PARAMS.page.default_value
-  );
-  const [totalPages, setTotal] = useState(0);
+export const usePagination: usePaginationType = () => {
+  const search = useSelector<RootState, string>(selectSearch);
+  const limit = useSelector<RootState, string>(selectItems);
+  const page = useSelector<RootState, string>(selectPage);
+  const { data } = useGetTotalQuery({ search, limit, page });
   const [paginationState, setPaginationState] = useState<PaginationState>({
+    total: 0,
     first: {
       disabled: false,
       value: 1,
@@ -60,49 +54,29 @@ export const usePagination: usePaginationType = (value, limit) => {
   });
 
   useEffect(() => {
-    try {
-      const fetchData = async () => {
-        const data = await getAllData<ApiResponse<number>>(
-          API_METHODS.count,
-          value,
-          limit,
-          (Number(page) - 1).toString()
-        );
-        setTotal(Math.ceil(data.result / Number(limit)));
-        setPaginationState({
-          first: {
-            disabled: Number(page) === 1,
-            value: 1,
-          },
-          prev: {
-            disabled: Number(page) === 1,
-            value: Number(page) - 1,
-          },
-          next: {
-            disabled: totalPages === Number(page),
-            value: Number(page) + 1,
-          },
-          last: {
-            disabled: totalPages === Number(page),
-            value: totalPages,
-          },
-        });
-      };
-      fetchData();
-    } catch {}
-  }, [limit, page, totalPages, value]);
+    if (!data) return;
+    const total = Math.ceil(data.result / Number(limit));
 
-  useEffect(() => {
-    if (!searchParams.get(URL_SEARCH_PARAMS.page.name)) {
-      searchParams.delete(URL_SEARCH_PARAMS.page.name);
-      setSearchParams(searchParams);
-    }
-  }, [searchParams, setSearchParams]);
+    setPaginationState({
+      total,
+      first: {
+        disabled: Number(page) === 1,
+        value: 1,
+      },
+      prev: {
+        disabled: Number(page) === 1,
+        value: Number(page) - 1,
+      },
+      next: {
+        disabled: total === Number(page),
+        value: Number(page) + 1,
+      },
+      last: {
+        disabled: total === Number(page),
+        value: total,
+      },
+    });
+  }, [data, limit, page]);
 
-  useEffect(() => {
-    searchParams.set(URL_SEARCH_PARAMS.page.name, page);
-    setSearchParams(searchParams);
-  }, [page, searchParams, setSearchParams]);
-
-  return [page, totalPages, paginationState, setPage];
+  return paginationState;
 };

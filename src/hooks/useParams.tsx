@@ -6,6 +6,7 @@ import { setSearchValue } from '../store-manager/slices/search-slice';
 import { setPage } from '../store-manager/slices/page-slice';
 import { setItemsPerPage } from '../store-manager/slices/items-slice';
 import { AppDispatch, RootState } from '../store-manager/store';
+import { getExistingLimitPerPage } from 'services/query-params-service';
 
 export const useParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,38 +24,47 @@ export const useParams = () => {
     [searchParams, setSearchParams]
   );
 
+  const deleteParam = useCallback(
+    (name: string) => {
+      searchParams.delete(name);
+      setSearchParams(searchParams);
+    },
+    [searchParams, setSearchParams]
+  );
+
   const initializeParams = useCallback(() => {
     if (isFirstLoading) {
       const search = searchParams.get(URL_SEARCH_PARAMS.search_query.name);
+      if (!search) deleteParam(URL_SEARCH_PARAMS.search_query.name);
       dispatch(setSearchValue(search || ''));
       const page = searchParams.get(URL_SEARCH_PARAMS.page.name);
       dispatch(setPage(page || URL_SEARCH_PARAMS.page.default_value));
-      const limit = searchParams.get(URL_SEARCH_PARAMS.limit_per_page.name);
-      dispatch(
-        setItemsPerPage(limit || URL_SEARCH_PARAMS.limit_per_page.default_value)
+      const limit = getExistingLimitPerPage(
+        searchParams.get(URL_SEARCH_PARAMS.limit_per_page.name)
       );
+      dispatch(setItemsPerPage(limit));
       setIsFirstLoading(false);
     }
-  }, [dispatch, isFirstLoading, searchParams]);
+  }, [deleteParam, dispatch, isFirstLoading, searchParams]);
 
   useEffect(() => {
     initializeParams();
   }, [initializeParams]);
 
   useEffect(() => {
-    if (!isFirstLoading) {
+    if (!isFirstLoading && limit) {
       setParam(URL_SEARCH_PARAMS.limit_per_page.name, limit);
     }
   }, [isFirstLoading, limit, setParam]);
 
   useEffect(() => {
-    if (!isFirstLoading) {
+    if (!isFirstLoading && page) {
       setParam(URL_SEARCH_PARAMS.page.name, page);
     }
   }, [isFirstLoading, page, setParam]);
 
   useEffect(() => {
-    if (!isFirstLoading) {
+    if (!isFirstLoading && search) {
       setParam(URL_SEARCH_PARAMS.search_query.name, search);
     }
   }, [isFirstLoading, search, setParam]);

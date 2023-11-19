@@ -1,12 +1,14 @@
 import { Card } from './card';
 import { render, screen } from '@testing-library/react';
-import { AppContextProvider } from 'context/app-context';
-import { MemoryRouter } from 'react-router-dom';
-import { allResults, singleShow } from 'test-data/fetched-data';
+import { MemoryRouter, Outlet, Route, Routes } from 'react-router-dom';
+import { allResults } from 'test-data/fetched-data';
 import { vi } from 'vitest';
-import * as moduleApi from 'services/api-service';
 import userEvent from '@testing-library/user-event';
-import App from './../../App';
+import * as api from 'store-manager/slices/api-slice';
+import { Layout } from 'components/layout/layout';
+import { Details } from 'components/details/details';
+import { Provider } from 'react-redux';
+import { store } from 'store-manager/store';
 
 describe('Card', () => {
   afterEach(() => {
@@ -21,9 +23,7 @@ describe('Card', () => {
     );
     render(
       <MemoryRouter initialEntries={[``]}>
-        <AppContextProvider>
-          <Card {...allResults.result[0]} />
-        </AppContextProvider>
+        <Card {...allResults.result[0]} />
       </MemoryRouter>
     );
 
@@ -36,18 +36,27 @@ describe('Card', () => {
   });
 
   it('should open a detailed card component when clicked', async () => {
-    vi.spyOn(moduleApi, 'getAllData').mockImplementation(() =>
-      Promise.resolve(allResults)
-    );
+    global.fetch = vi.fn().mockResolvedValue(allResults.result[0]);
 
-    vi.spyOn(moduleApi, 'getShow').mockImplementation(() =>
-      Promise.resolve(singleShow)
+    const Element = (
+      <div>
+        <Card {...allResults.result[0]} />
+        <Outlet />
+      </div>
     );
 
     render(
-      <MemoryRouter initialEntries={['']}>
-        <App />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path="/" element={Element}>
+                <Route path="details/:id" element={<Details />} />
+              </Route>
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </Provider>
     );
 
     const link = await screen.findByText('End of the String');
@@ -57,24 +66,34 @@ describe('Card', () => {
   });
 
   it('should trigger an additional API call to fetch detailed information', async () => {
+    global.fetch = vi.fn().mockResolvedValue(allResults.result[0]);
+    const spyOnCall = vi.spyOn(api, 'useGetShowQuery');
     const user = userEvent.setup();
-    vi.spyOn(moduleApi, 'getAllData').mockImplementation(() =>
-      Promise.resolve(allResults)
+
+    const Element = (
+      <div>
+        <Card {...allResults.result[0]} />
+        <Outlet />
+      </div>
     );
 
-    const spyOnShow = vi
-      .spyOn(moduleApi, 'getShow')
-      .mockImplementation(() => Promise.resolve(singleShow));
-
     render(
-      <MemoryRouter initialEntries={['']}>
-        <App />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path="/" element={Element}>
+                <Route path="details/:id" element={<Details />} />
+              </Route>
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </Provider>
     );
 
     const link = await screen.findByText('End of the String');
-    expect(spyOnShow).not.toHaveBeenCalled();
+    expect(spyOnCall).not.toHaveBeenCalled();
     await user.click(link);
-    expect(spyOnShow).toHaveBeenCalled();
+    expect(spyOnCall).toHaveBeenCalled();
   });
 });

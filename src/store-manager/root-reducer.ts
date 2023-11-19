@@ -4,6 +4,7 @@ import { pageSlice } from './slices/page-slice';
 import { itemsSlice } from './slices/items-slice';
 import { apiSlice } from './slices/api-slice';
 import { showsSlice } from './slices/shows-slice';
+import { showSlice } from './slices/show-slice';
 
 export const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
@@ -11,4 +12,5 @@ export const rootReducer = combineReducers({
   page: pageSlice.reducer,
   items: itemsSlice.reducer,
   shows: showsSlice.reducer,
+  show: showSlice.reducer,
 });

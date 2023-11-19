@@ -5,19 +5,28 @@ import { ErrorMessage } from 'components/error-message/error-message';
 import { Pagination } from 'components/pagination/pagination';
 import { Outlet } from 'react-router-dom';
 import { useParams } from 'hooks/useParams';
-import { useGetShowsQuery } from 'store-manager/slices/api-slice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store-manager/store';
 import { ShowsState } from 'store-manager/slices/shows-slice';
+import { useGetShowsQuery } from 'store-manager/slices/api-slice';
+import { useEffect, useState } from 'react';
+import { URL_SEARCH_PARAMS } from 'consts/consts';
 
 export const MainPage = () => {
   const [search, limit, page] = useParams();
-
-  useGetShowsQuery({ search, limit, page });
-
-  const { loading, error, shows } = useSelector<RootState, ShowsState>(
+  const [shouldSkip, setShouldSkip] = useState(true);
+  const { data: shows } = useGetShowsQuery(
+    { search, limit, page },
+    { skip: shouldSkip }
+  );
+  const { loading, error } = useSelector<RootState, ShowsState>(
     (state) => state.shows
   );
+
+  useEffect(() => {
+    if (limit !== URL_SEARCH_PARAMS.limit_per_page.initial_value)
+      setShouldSkip(false);
+  }, [limit]);
 
   return (
     <>
@@ -41,7 +50,7 @@ export const MainPage = () => {
           </div>
         )}
       </div>
-      <Outlet context={{ limit, searchQuery: search }}></Outlet>
+      <Outlet></Outlet>
     </>
   );
 };

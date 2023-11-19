@@ -1,29 +1,35 @@
-import { useDetailedInfo } from 'hooks/useDetailedInfo';
 import './details.scss';
 import { Loader } from 'components/loader/loader';
 import { ErrorMessage } from 'components/error-message/error-message';
-import { Link, useOutletContext } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { URL_SEARCH_PARAMS } from 'consts/consts';
-
-export type OutletContext = {
-  limit: string;
-  searchQuery: string;
-  page: string;
-};
+import { useGetShowQuery } from 'store-manager/slices/api-slice';
+import { useSelector } from 'react-redux';
+import { ShowState } from 'store-manager/slices/show-slice';
+import { RootState } from 'store-manager/store';
+import { selectItems } from 'store-manager/slices/items-slice';
+import { selectPage } from 'store-manager/slices/page-slice';
+import { selectSearch } from 'store-manager/slices/search-slice';
 
 export const Details = () => {
-  const { limit, searchQuery, page } = useOutletContext<OutletContext>();
-  const [data, isLoading, hasError] = useDetailedInfo();
+  const limit = useSelector<RootState, string>(selectItems);
+  const page = useSelector<RootState, string>(selectPage);
+  const search = useSelector<RootState, string>(selectSearch);
+  const { id } = useParams();
+  const { data } = useGetShowQuery(id || '');
+  const { loading, error } = useSelector<RootState, ShowState>(
+    (state) => state.show
+  );
 
   return (
     <div className="details" data-testid="details-component">
       <Link
-        to={`/?${URL_SEARCH_PARAMS.page.name}=${page}&${URL_SEARCH_PARAMS.limit_per_page.name}=${limit}&${URL_SEARCH_PARAMS.search_query.name}=${searchQuery}`}
+        to={`/?${URL_SEARCH_PARAMS.page.name}=${page}&${URL_SEARCH_PARAMS.limit_per_page.name}=${limit}&${URL_SEARCH_PARAMS.search_query.name}=${search}`}
         className="overlay"
       ></Link>
       <div className="details-content">
-        {isLoading && <Loader></Loader>}
-        {hasError && (
+        {loading && <Loader></Loader>}
+        {error && (
           <ErrorMessage text="Oops... An error occurred. Please try again later"></ErrorMessage>
         )}
         {data?.result && (
@@ -55,7 +61,7 @@ export const Details = () => {
             </div>
             <Link
               className="close-button"
-              to={`/?${URL_SEARCH_PARAMS.page.name}=${page}&${URL_SEARCH_PARAMS.limit_per_page.name}=${limit}&${URL_SEARCH_PARAMS.search_query.name}=${searchQuery}`}
+              to={`/?${URL_SEARCH_PARAMS.page.name}=${page}&${URL_SEARCH_PARAMS.limit_per_page.name}=${limit}&${URL_SEARCH_PARAMS.search_query.name}=${search}`}
               data-testid="close-button"
             ></Link>
           </>

@@ -15,7 +15,7 @@ export const Pagination = () => {
 
   const changeItemsPerPage = (e: ChangeEvent<HTMLSelectElement>) => {
     dispatch(setItemsPerPage(e.target.value));
-    dispatch(setPage(URL_SEARCH_PARAMS.limit_per_page.default_value));
+    dispatch(setPage(URL_SEARCH_PARAMS.page.default_value));
   };
 
   return (

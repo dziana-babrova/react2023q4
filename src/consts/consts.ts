@@ -4,6 +4,7 @@ export const URL_SEARCH_PARAMS = {
   limit_per_page: {
     name: 'limit',
     default_value: '12',
+    initial_value: '0',
     options: {
       option1: '8',
       option2: '12',

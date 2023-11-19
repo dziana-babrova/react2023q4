@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
+import { URL_SEARCH_PARAMS } from 'consts/consts';
 
 export const pageSlice = createSlice({
   name: 'page',
   initialState: {
-    value: '1',
+    value: URL_SEARCH_PARAMS.page.default_value,
   },
   reducers: {
     setPage: (state, action: PayloadAction<string>) => {

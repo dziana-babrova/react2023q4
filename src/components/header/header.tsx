@@ -1,10 +1,10 @@
-import { ErrorButton } from 'components/error-button/error-button';
-import './header.scss';
+import { ErrorButton } from '@/components/error-button/error-button';
+import styles from './header.module.scss';
 
 export const Header = () => {
   return (
-    <header className="app-header app-wrapper">
-      <h1 className="app-title">TV Shows</h1>
+    <header className={`${styles['app-header']} app-wrapper`}>
+      <h1 className={styles['app-title']}>TV Shows</h1>
       <ErrorButton />
     </header>
   );

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { allResults } from 'test-data/fetched-data';
 import { vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
-import { MainPage } from 'pages/main/main';
+import { MainPage } from 'pages/main';
 import { Provider } from 'react-redux';
 import { store } from 'store-manager/store';
 import { CardsList } from './cards-list';

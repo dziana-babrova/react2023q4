@@ -1,20 +1,20 @@
-import './footer.scss';
+import styles from './footer.module.scss';
 
 export const Footer = () => {
   return (
-    <footer className="app-footer app-wrapper">
+    <footer className={`${styles['app-footer']} app-wrapper`}>
       <a
         href="https://github.com/dziana-babrova/"
         target="_blank"
         rel="noopener noreferrer"
-        className="footer-element github"
+        className={`${styles['footer-element']} ${styles.github}`}
       ></a>
-      <p className="footer-element year">2023</p>
+      <p className={`${styles['footer-element']} ${styles.year}`}>2023</p>
       <a
         href="https://rs.school/react/"
         target="_blank"
         rel="noopener noreferrer"
-        className="footer-element logo"
+        className={`${styles['footer-element']} ${styles.logo}`}
       ></a>
     </footer>
   );

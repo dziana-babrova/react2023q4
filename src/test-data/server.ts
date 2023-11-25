@@ -1,7 +1,7 @@
 import { HttpResponse, http } from 'msw';
 import { setupServer } from 'msw/node';
 import { allResults, noResults, singleShow, totalResult } from './fetched-data';
-import { API } from 'consts/api';
+import { API } from '@/consts/api';
 
 export const server = setupServer(
   http.post(API.all_shows, async ({ request }) => {

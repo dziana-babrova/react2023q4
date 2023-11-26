@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store-manager/store';
-import { selectSearch } from 'store-manager/slices/search-slice';
-import { selectItems } from 'store-manager/slices/items-slice';
-import { useGetTotalQuery } from 'store-manager/slices/api-slice';
-import { selectPage } from 'store-manager/slices/page-slice';
 
 export type PaginationState = {
+  limit: string;
+  currentPage: string;
   total: number;
   first: {
     disabled: boolean;
@@ -26,15 +22,19 @@ export type PaginationState = {
   };
 };
 
-type usePaginationType = () => PaginationState;
+type usePaginationProps = {
+  limit: string;
+  page: string;
+  total: string;
+}
 
-export const usePagination: usePaginationType = () => {
-  const search = useSelector<RootState, string>(selectSearch);
-  const limit = useSelector<RootState, string>(selectItems);
-  const page = useSelector<RootState, string>(selectPage);
-  const { data } = useGetTotalQuery({ search, limit, page });
+type usePaginationType = (props: usePaginationProps) => PaginationState;
+
+export const usePagination: usePaginationType = ({ limit, page, total }) => {
   const [paginationState, setPaginationState] = useState<PaginationState>({
+    currentPage: page,
     total: 0,
+    limit: limit,
     first: {
       disabled: false,
       value: 1,
@@ -54,11 +54,12 @@ export const usePagination: usePaginationType = () => {
   });
 
   useEffect(() => {
-    if (!data) return;
-    const total = Math.ceil(data.result / Number(limit));
+    const totalPages = Math.ceil(Number(total) / Number(limit));
 
     setPaginationState({
-      total,
+      limit,
+      currentPage: page,
+      total: totalPages,
       first: {
         disabled: Number(page) === 1,
         value: 1,
@@ -68,15 +69,15 @@ export const usePagination: usePaginationType = () => {
         value: Number(page) - 1,
       },
       next: {
-        disabled: total === Number(page),
+        disabled: totalPages === Number(page),
         value: Number(page) + 1,
       },
       last: {
-        disabled: total === Number(page),
-        value: total,
+        disabled: totalPages === Number(page),
+        value: totalPages,
       },
     });
-  }, [data, limit, page]);
+  }, [total, limit, page]);
 
   return paginationState;
 };

@@ -1,22 +1,15 @@
-import { Show } from 'src/types/api-types';
+import styles from './cards-list.module.scss';
+import { Show } from '@/types/api-types';
 import { Card } from './card';
-import './cards-list.scss';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store-manager/store';
-import { selectSearch } from 'store-manager/slices/search-slice';
-import { selectItems } from 'store-manager/slices/items-slice';
-import { selectPage } from 'store-manager/slices/page-slice';
-import { useGetShowsQuery } from 'store-manager/slices/api-slice';
+import { useGetShowsQuery } from '@/store-manager/slices/api-slice';
+import { useParams } from '@/hooks/useParams';
 
 export const CardsList = () => {
-  const search = useSelector<RootState, string>(selectSearch);
-  const limit = useSelector<RootState, string>(selectItems);
-  const page = useSelector<RootState, string>(selectPage);
-  const { data: shows } = useGetShowsQuery({ search, limit, page });
-
+  const [search, limit, page] = useParams();
+  const { data } = useGetShowsQuery({ search, limit, page });
   return (
-    <ul className="cards">
-      {shows?.result.map(
+    <ul className={styles.cards}>
+      {data?.result?.map(
         (show: Pick<Show, 'image' | 'title' | 'status' | 'id'>) => {
           return <Card key={show.id} {...show}></Card>;
         }

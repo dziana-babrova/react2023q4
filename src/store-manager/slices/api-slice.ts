@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { API } from 'consts/api';
-import { API_METHODS } from 'consts/consts';
-import { ApiResponse, Show, SingleShowApiResponse } from 'src/types/api-types';
+import { API } from '@/consts/api';
+import { API_METHODS } from '@/consts/consts';
+import { ApiResponse, Show, SingleShowApiResponse } from '@/types/api-types';
+import { HYDRATE } from 'next-redux-wrapper';
 
-type ApiProps = {
+export type ApiProps = {
   search: string;
   page: string;
   limit: string;
@@ -13,6 +14,12 @@ export const apiSlice = createApi({
   reducerPath: 'api',
 
   baseQuery: fetchBaseQuery({ baseUrl: API.all_shows }),
+
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
 
   endpoints: (builder) => ({
     getShows: builder.query<ApiResponse<Show[]>, ApiProps>({
@@ -87,4 +94,10 @@ export const apiSlice = createApi({
   }),
 });
 
-export const { useGetShowsQuery, useGetTotalQuery, useGetShowQuery } = apiSlice;
+export const {
+  util: { getRunningQueriesThunk },
+} = apiSlice;
+
+export const { getShow, getShows, getTotal } = apiSlice.endpoints;
+
+export const { useGetShowQuery, useGetTotalQuery, useGetShowsQuery } = apiSlice;

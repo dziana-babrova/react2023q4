@@ -1,9 +1,11 @@
-.content-list {
-  flex-shrink: 1;
-}
+@import '@/styles/colors';
+@import '@/styles/fonts';
+@import '@/styles/mixins';
+@import '@/styles/sizes';
 
 .content-list:has(+ .details) {
   flex: 0 0 50%;
+  flex-shrink: 1;
 
   .cards {
     max-height: 80vh;

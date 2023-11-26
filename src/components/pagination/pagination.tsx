@@ -1,68 +1,85 @@
-import { URL_SEARCH_PARAMS } from 'consts/consts';
+import { URL_SEARCH_PARAMS } from '@/consts/consts';
 import { ChangeEvent } from 'react';
-import './pagination.scss';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectItems, setItemsPerPage } from 'store-manager/slices/items-slice';
-import { AppDispatch, RootState } from 'store-manager/store';
-import { selectPage, setPage } from 'store-manager/slices/page-slice';
-import { usePagination } from 'hooks/usePagination';
+import styles from './pagination.module.scss';
+import { usePagination } from '@/hooks/usePagination';
+import { useRouter } from 'next/router';
 
-export const Pagination = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const itemsPerPage = useSelector<RootState, string>(selectItems);
-  const page = useSelector<RootState, string>(selectPage);
-  const paginationState = usePagination();
+type PaginationProps = {
+  limit: string;
+  total: string;
+  page: string;
+};
+
+export const Pagination = ({ limit, total, page }: PaginationProps) => {
+  const router = useRouter();
+  const paginationState = usePagination({ limit, total, page });
 
   const changeItemsPerPage = (e: ChangeEvent<HTMLSelectElement>) => {
-    dispatch(setItemsPerPage(e.target.value));
-    dispatch(setPage(URL_SEARCH_PARAMS.page.default_value));
+    router.replace({
+      query: {
+        ...router.query,
+        limit: e.target.value,
+        page: URL_SEARCH_PARAMS.page.default_value,
+      },
+    });
+  };
+
+  const changePage = (page: string) => {
+    router.replace({
+      query: {
+        ...router.query,
+        page: page,
+      },
+    });
   };
 
   return (
-    <div className="pagination">
+    <div className={styles['pagination']}>
       <button
         disabled={paginationState.first.disabled}
-        className="pagination-button"
+        className={styles['pagination-button']}
         onClick={() => {
-          dispatch(setPage(paginationState.first.value.toString()));
+          changePage(paginationState.first.value.toString());
         }}
       >
         {'<<'}
       </button>
       <button
         disabled={paginationState.prev.disabled}
-        className="pagination-button"
+        className={styles['pagination-button']}
         onClick={() => {
-          dispatch(setPage(paginationState.prev.value.toString()));
+          changePage(paginationState.prev.value.toString());
         }}
       >
         {'<'}
       </button>
-      <div className="pagination-counter">{`${page} of ${paginationState.total}`}</div>
+      <div
+        className={styles['pagination-counter']}
+      >{`${paginationState.currentPage} of ${paginationState.total}`}</div>
       <button
         disabled={paginationState.next.disabled}
-        className="pagination-button"
+        className={styles['pagination-button']}
         onClick={() => {
-          dispatch(setPage(paginationState.next.value.toString()));
+          changePage(paginationState.next.value.toString());
         }}
       >
         {'>'}
       </button>
       <button
         disabled={paginationState.last.disabled}
-        className="pagination-button"
+        className={styles['pagination-button']}
         data-testid="page-next"
         onClick={() => {
-          dispatch(setPage(paginationState.last.value.toString()));
+          changePage(paginationState.last.value.toString());
         }}
       >
         {'>>'}
       </button>
       <select
-        className="pagination-select"
+        className={styles['pagination-select']}
         name="items"
         id=""
-        defaultValue={itemsPerPage}
+        defaultValue={paginationState.limit}
         onChange={changeItemsPerPage}
       >
         {Object.values(URL_SEARCH_PARAMS.limit_per_page.options).map(

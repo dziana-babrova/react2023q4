@@ -1,36 +1,38 @@
 import { FormEvent, useRef } from 'react';
-import './search.scss';
-import { URL_SEARCH_PARAMS } from 'consts/consts';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  selectSearch,
-  setSearchValue,
-} from 'store-manager/slices/search-slice';
-import { AppDispatch, RootState } from 'store-manager/store';
-import { setPage } from 'store-manager/slices/page-slice';
+import styles from './search.module.scss';
+import { URL_SEARCH_PARAMS } from '@/consts/consts';
+import { useRouter } from 'next/router';
 
-export const SearchBar = () => {
-  const value = useSelector<RootState, string>(selectSearch);
+type SearchBarProps = {
+  search: string;
+};
+
+export const SearchBar = ({ search }: SearchBarProps) => {
+  const router = useRouter();
   const searchRef = useRef<HTMLInputElement>(null);
-  const dispatch = useDispatch<AppDispatch>();
 
   const onClick = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(setSearchValue(searchRef.current?.value || ''));
-    dispatch(setPage(URL_SEARCH_PARAMS.page.default_value));
+    router.replace({
+      query: {
+        ...router.query,
+        search: searchRef.current?.value || '',
+        page: URL_SEARCH_PARAMS.page.default_value,
+      },
+    });
   };
 
   return (
-    <form className="search-form" onSubmit={onClick} action="">
+    <form className={styles['search-form']} onSubmit={onClick} action="">
       <input
-        className="search-field"
+        className={styles['search-field']}
         type="search"
         ref={searchRef}
         placeholder="SEARCH"
-        defaultValue={value}
+        defaultValue={search}
       />
       <span
-        className="search-submit"
+        className={styles['search-submit']}
         onClick={onClick}
         data-testid="search-submit"
       />

@@ -1,0 +1,15 @@
+@import '@/styles/colors';
+@import '@/styles/fonts';
+@import '@/styles/mixins';
+@import '@/styles/sizes';
+
+.error-button {
+  @include button;
+  height: 35px;
+  margin: 20px;
+  background-color: $color-secondary;
+
+  &:hover {
+    background-color: $color-primary;
+  }
+}

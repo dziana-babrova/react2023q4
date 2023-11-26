@@ -1,0 +1,23 @@
+@import '@/styles/colors';
+@import '@/styles/fonts';
+@import '@/styles/mixins';
+@import '@/styles/sizes';
+
+.app-loader {
+  height: 0;
+  width: 0;
+  padding: 15px;
+  border: 6px solid #ccc;
+  border-right-color: $color-secondary;
+  border-radius: 22px;
+  animation: rotate 1s infinite linear;
+  -webkit-animation: rotate 1s infinite linear;
+  position: relative;
+  top: 100px;
+}
+
+@keyframes rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}

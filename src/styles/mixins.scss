@@ -1,0 +1,16 @@
+@import '@/styles/colors';
+
+@mixin button() {
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: medium;
+  color: white;
+  border-radius: 0;
+
+  &:active {
+    box-shadow: $color-button-focus 0px 2px 4px 0px inset;
+  }
+}

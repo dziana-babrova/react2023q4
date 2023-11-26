@@ -1,0 +1,51 @@
+@import '@/styles/colors';
+@import '@/styles/fonts';
+@import '@/styles/mixins';
+@import '@/styles/sizes';
+
+.pagination {
+  flex-grow: 1;
+  justify-self: flex-end;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
+
+  &-select {
+    background-color: $color-secondary;
+    width: $size-select-width;
+    height: $size-select-height;
+    color: $color-white;
+    padding: 5px;
+    font-size: large;
+    font-family: $font-primary;
+  }
+
+  &-button {
+    box-sizing: border-box;
+    border: 1px solid $color-secondary;
+    width: $size-page-button-width;
+    height: $size-page-button-height;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    font-weight: 500;
+    border-radius: 0;
+    cursor: pointer;
+
+    &:disabled {
+      border: none;
+      outline: none;
+      cursor: auto;
+    }
+  }
+
+  &-counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $size-page-button-height;
+  }
+}

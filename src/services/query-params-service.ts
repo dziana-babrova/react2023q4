@@ -1,4 +1,4 @@
-import { URL_SEARCH_PARAMS } from 'consts/consts';
+import { URL_SEARCH_PARAMS } from '@/consts/consts';
 
 export function getExistingLimitPerPage(limit: string | null) {
   if (

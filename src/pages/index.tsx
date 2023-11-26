@@ -18,15 +18,16 @@ type MainPageServerSideProps = {
   search: string;
   page: string;
   limit: string;
-  shows: ApiResponse<Show[]>;
-  total: string;
+  shows: ApiResponse<Show[]> | undefined;
+  total: number | undefined;
   isError: boolean;
-  card: SingleShowApiResponse;
+  card: SingleShowApiResponse | null | undefined;
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context: GetServerSidePropsContext) => {
     const { search, page, limit, cardId } = context.query;
+    console.log(cardId);
     const searchParam = search
       ? search.toString()
       : URL_SEARCH_PARAMS.search_query.default_value;
@@ -85,6 +86,7 @@ const MainPage = ({
   isError,
   card,
 }: MainPageServerSideProps) => {
+  console.log(card);
   return (
     <>
       <div className="content-list">

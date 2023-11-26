@@ -25,8 +25,8 @@ export type PaginationState = {
 type usePaginationProps = {
   limit: string;
   page: string;
-  total: string;
-}
+  total: number | undefined;
+};
 
 type usePaginationType = (props: usePaginationProps) => PaginationState;
 

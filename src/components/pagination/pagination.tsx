@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 
 type PaginationProps = {
   limit: string;
-  total: string;
+  total: number | undefined;
   page: string;
 };
 
@@ -59,6 +59,7 @@ export const Pagination = ({ limit, total, page }: PaginationProps) => {
       <button
         disabled={paginationState.next.disabled}
         className={styles['pagination-button']}
+        data-testid="page-next"
         onClick={() => {
           changePage(paginationState.next.value.toString());
         }}
@@ -68,7 +69,6 @@ export const Pagination = ({ limit, total, page }: PaginationProps) => {
       <button
         disabled={paginationState.last.disabled}
         className={styles['pagination-button']}
-        data-testid="page-next"
         onClick={() => {
           changePage(paginationState.last.value.toString());
         }}

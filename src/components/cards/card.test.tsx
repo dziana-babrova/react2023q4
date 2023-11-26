@@ -1,14 +1,13 @@
 import { Card } from './card';
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter, Outlet, Route, Routes } from 'react-router-dom';
-import { allResults } from 'test-data/fetched-data';
+import { allResults, singleShow } from '@/test-data/fetched-data';
 import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import * as api from 'store-manager/slices/api-slice';
-import { Layout } from 'components/layout/layout';
-import { Details } from 'components/details/details';
-import { Provider } from 'react-redux';
-import { store } from 'store-manager/store';
+import { server } from '@/test-data/server';
+import Page, { getServerSideProps } from '@/pages';
+import { assertHasProps, gsspCtx } from '@/test-data/context-mock';
+import mockRouter from 'next-router-mock';
+import { getAllResults } from '@/test-data/handlers/getAllResults';
 
 describe('Card', () => {
   afterEach(() => {
@@ -16,11 +15,7 @@ describe('Card', () => {
   });
 
   it('should render the relevant card data', async () => {
-    render(
-      <MemoryRouter initialEntries={[``]}>
-        <Card {...allResults.result[0]} />
-      </MemoryRouter>
-    );
+    render(<Card {...allResults.result[0]} />);
 
     const title = await screen.findByText('End of the String');
     const status = await screen.findByText('Canceled/Ended');
@@ -30,62 +25,23 @@ describe('Card', () => {
     expect(image).toBeInTheDocument();
   });
 
-  it('should open a detailed card component when clicked', async () => {
-    const Element = (
-      <div>
-        <Card {...allResults.result[0]} />
-        <Outlet />
-      </div>
-    );
+  it('should set a query param when card component clicked', async () => {
+    vi.mock('next/router', () => require('next-router-mock'));
 
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/']}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route path="/" element={Element}>
-                <Route path="details/:id" element={<Details />} />
-              </Route>
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </Provider>
-    );
+    server.use(getAllResults());
+    async function gssp() {
+      const res = await getServerSideProps(
+        gsspCtx({ query: { ...mockRouter.query } })
+      );
+      return res;
+    }
+    const res = await gssp();
+    assertHasProps(res);
+
+    render(<Page {...res.props} />);
 
     const link = await screen.findByText('End of the String');
     await userEvent.click(link);
-    const details = await screen.findByTestId('details-component');
-    expect(details).toBeInTheDocument();
-  });
-
-  it('should trigger an additional API call to fetch detailed information', async () => {
-    const spyOnCall = vi.spyOn(api, 'useGetShowQuery');
-    const user = userEvent.setup();
-
-    const Element = (
-      <div>
-        <Card {...allResults.result[0]} />
-        <Outlet />
-      </div>
-    );
-
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/']}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route path="/" element={Element}>
-                <Route path="details/:id" element={<Details />} />
-              </Route>
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </Provider>
-    );
-
-    const link = await screen.findByText('End of the String');
-    expect(spyOnCall).not.toHaveBeenCalled();
-    await user.click(link);
-    expect(spyOnCall).toHaveBeenCalled();
+    expect(mockRouter.query.cardId).toBe(singleShow.result.id);
   });
 });

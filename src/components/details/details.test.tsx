@@ -1,48 +1,21 @@
-import { MemoryRouter } from 'react-router-dom';
 import { vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { allResults, singleShow } from 'test-data/fetched-data';
+import { singleShow } from '@/test-data/fetched-data';
 import userEvent from '@testing-library/user-event';
-import App from './../../App';
 import { Details } from './details';
-import { Provider } from 'react-redux';
-import { store } from 'store-manager/store';
-import * as hook from 'hooks/useDetailedInfo';
+import { server } from '@/test-data/server';
+import { getResultsWithModal } from '@/test-data/handlers/getResultsWithModal';
+import Page, { getServerSideProps } from '@/pages';
+import { assertHasProps, gsspCtx } from '@/test-data/context-mock';
+import mockRouter from 'next-router-mock';
 
 describe('Detailed Card component', async () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it('should display a loading indicator while fetching data', async () => {
-    const user = userEvent.setup();
-    vi.spyOn(hook, 'useDetailedInfo').mockReturnValue({
-      data: singleShow,
-      loading: true,
-      error: false,
-    });
-
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[`/`]}>
-          <Details />
-        </MemoryRouter>
-      </Provider>
-    );
-    const item = await screen.findByText(allResults.result[0].title);
-    user.click(item);
-    const loading = screen.getByText('Loading...');
-    expect(loading).toBeInTheDocument();
-  });
-
   it('should display the detailed card data', async () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[``]}>
-          <Details />
-        </MemoryRouter>
-      </Provider>
-    );
+    render(<Details card={singleShow} />);
 
     const countryLabel = await screen.findByText('Country:');
     const descriptionLabel = await screen.findByText('Description:');
@@ -63,17 +36,29 @@ describe('Detailed Card component', async () => {
   });
 
   it('should hide the componentng on the close button click', async () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[`/details/1`]}>
-          <App />
-        </MemoryRouter>
-      </Provider>
-    );
+    vi.mock('next/router', () => require('next-router-mock'));
 
+    server.use(getResultsWithModal());
+    async function gssp() {
+      const res = await getServerSideProps(
+        gsspCtx({
+          query: {
+            ...mockRouter.query,
+            cardId: singleShow.result.id.toString(),
+          },
+        })
+      );
+      return res;
+    }
+
+    const res = await gssp();
+    assertHasProps(res);
+
+    render(<Page {...res.props} />);
     const details = await screen.findByTestId('details-component');
+    expect(details).toBeInTheDocument();
     const close = await screen.findByTestId('close-button');
     await userEvent.click(close);
-    expect(details).not.toBeInTheDocument();
+    expect(mockRouter.query.cardId).toBeUndefined();
   });
 });

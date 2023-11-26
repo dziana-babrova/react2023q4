@@ -3,7 +3,7 @@ export type Show = {
   title: string;
   titleOriginal: string;
   status: string;
-  totalSeasons: 3;
+  totalSeasons: number;
   year: number;
   watching: number;
   voted: number;
@@ -18,6 +18,7 @@ export type Show = {
 export type ApiResponse<T> = {
   result: T;
   jsonrpc: string;
+  id: number;
 };
 
 export type SingleShowApiResponse = {

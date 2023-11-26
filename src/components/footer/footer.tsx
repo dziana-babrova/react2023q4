@@ -2,7 +2,10 @@ import styles from './footer.module.scss';
 
 export const Footer = () => {
   return (
-    <footer className={`${styles['app-footer']} app-wrapper`}>
+    <footer
+      data-testid="footer"
+      className={`${styles['app-footer']} app-wrapper`}
+    >
       <a
         href="https://github.com/dziana-babrova/"
         target="_blank"

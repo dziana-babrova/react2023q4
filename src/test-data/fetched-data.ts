@@ -1,6 +1,6 @@
-import { SingleShowApiResponse } from 'src/types/api-types';
+import { ApiResponse, Show, SingleShowApiResponse } from '@/types/api-types';
 
-export const allResults = {
+export const allResults: ApiResponse<Show[]> = {
   jsonrpc: '2.0',
   result: [
     {

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { NotFoundPage } from './not-found';
+import { NotFoundPage } from '../404';
 
 describe('Not found page component', async () => {
   it('should be displayed when navigating to an invalid route', async () => {

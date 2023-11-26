@@ -3,7 +3,7 @@
 @import '@/styles/mixins';
 @import '@/styles/sizes';
 
-#root {
+#__next {
   width: 100%;
   min-height: 100vh;
   margin: 0 auto;
@@ -41,6 +41,6 @@
   }
 }
 
-// .content-list {
-//   width: 100%;
-// }
+.content-list {
+  width: 100%;
+}

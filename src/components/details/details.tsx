@@ -1,64 +1,89 @@
-import './details.scss';
-import { Loader } from 'components/loader/loader';
-import { ErrorMessage } from 'components/error-message/error-message';
-import { Link } from 'react-router-dom';
-import { URL_SEARCH_PARAMS } from 'consts/consts';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store-manager/store';
-import { selectItems } from 'store-manager/slices/items-slice';
-import { selectPage } from 'store-manager/slices/page-slice';
-import { selectSearch } from 'store-manager/slices/search-slice';
-import { useDetailedInfo } from 'hooks/useDetailedInfo';
+import { useRouter } from 'next/router';
+import styles from './details.module.scss';
+import { SingleShowApiResponse } from '@/types/api-types';
+// import { Loader } from '@/components/loader/loader';
+// import { ErrorMessage } from '@/components/error-message/error-message';
+// import { Link } from 'react-router-dom';
+// import { URL_SEARCH_PARAMS } from '@/consts/consts';
+// import { useSelector } from 'react-redux';
+// import { RootState } from 'store-manager/store';
+// import { selectItems } from 'store-manager/slices/items-slice';
+// import { selectPage } from 'store-manager/slices/page-slice';
+// import { selectSearch } from 'store-manager/slices/search-slice';
+// import { useDetailedInfo } from 'hooks/useDetailedInfo';
 
-export const Details = () => {
-  const limit = useSelector<RootState, string>(selectItems);
-  const page = useSelector<RootState, string>(selectPage);
-  const search = useSelector<RootState, string>(selectSearch);
-  const { data, loading, error } = useDetailedInfo();
+type DetailsProps = {
+  card: SingleShowApiResponse;
+};
+
+export const Details = ({ card }: DetailsProps) => {
+  const router = useRouter();
+
+  const closeModal = () => {
+    const { query } = router;
+    const params = {};
+    for (const param in query) {
+      if (param !== 'cardId') {
+        Object.assign(params, param, {
+          value: query[param],
+        });
+      }
+    }
+    router.replace({ query: { ...params } });
+  };
 
   return (
-    <div className="details" data-testid="details-component">
-      <Link
-        to={`/?${URL_SEARCH_PARAMS.page.name}=${page}&${URL_SEARCH_PARAMS.limit_per_page.name}=${limit}&${URL_SEARCH_PARAMS.search_query.name}=${search}`}
-        className="overlay"
-      ></Link>
-      <div className="details-content">
-        {loading && <Loader></Loader>}
+    <div className={styles.details} data-testid="details-component">
+      <div onClick={closeModal} className={styles.overlay}></div>
+      <div className={styles['details-content']}>
+        {/* {loading && <Loader></Loader>}
         {error && (
           <ErrorMessage text="Oops... An error occurred. Please try again later"></ErrorMessage>
-        )}
-        {data?.result && (
+        )} */}
+        {card?.result && (
           <>
-            <img className="details-image" src={data.result.image}></img>
-            <p className="details-title">{data.result.title}</p>
-            <div className="details-info">
-              <div className="details-info-item">
+            <img
+              className={styles['details-image']}
+              src={card.result.image}
+            ></img>
+            <p className={styles['details-title']}>{card.result.title}</p>
+            <div className={styles['details-info']}>
+              <div className={styles['details-info-item']}>
                 Country:{' '}
-                <p className="details-info-content">{data.result.country}</p>
-              </div>
-              <div className="details-info-item">
-                Description:{' '}
-                <p className="details-info-content">
-                  {data.result.description}
+                <p className={styles['details-info-content']}>
+                  {card.result.country}
                 </p>
               </div>
-              <div className="details-info-item">
-                Year: <p className="details-info-content">{data.result.year}</p>
+              <div className={styles['details-info-item']}>
+                Description:{' '}
+                <p className={styles['details-info-content']}>
+                  {card.result.description}
+                </p>
               </div>
-              <div className="details-info-item">
+              <div className={styles['details-info-item']}>
+                Year:{' '}
+                <p className={styles['details-info-content']}>
+                  {card.result.year}
+                </p>
+              </div>
+              <div className={styles['details-info-item']}>
                 Status:{' '}
-                <p className="details-info-content">{data.result.status}</p>
+                <p className={styles['details-info-content']}>
+                  {card.result.status}
+                </p>
               </div>
-              <div className="details-info-item">
+              <div className={styles['details-info-item']}>
                 Imdb rating:{' '}
-                <p className="details-info-content">{data.result.imdbRating}</p>
+                <p className={styles['details-info-content']}>
+                  {card.result.imdbRating}
+                </p>
               </div>
             </div>
-            <Link
-              className="close-button"
-              to={`/?${URL_SEARCH_PARAMS.page.name}=${page}&${URL_SEARCH_PARAMS.limit_per_page.name}=${limit}&${URL_SEARCH_PARAMS.search_query.name}=${search}`}
+            <div
+              className={styles['close-button']}
+              onClick={closeModal}
               data-testid="close-button"
-            ></Link>
+            ></div>
           </>
         )}
       </div>

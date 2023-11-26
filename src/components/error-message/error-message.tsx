@@ -1,9 +1,9 @@
-import './error-message.scss';
+import styles from './error-message.module.scss';
 
 type ErrorMessageType = {
   text: string;
 };
 
 export const ErrorMessage = ({ text }: ErrorMessageType) => {
-  return <div className="error-message">{text}</div>;
+  return <div className={styles['error-message']}>{text}</div>;
 };
